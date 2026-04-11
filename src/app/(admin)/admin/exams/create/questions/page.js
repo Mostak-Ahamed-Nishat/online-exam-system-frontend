@@ -126,7 +126,7 @@ export default function CreateQuestionSetsPage() {
               openAddQuestion();
             }}
             disabled={isSubmittingExam}
-            className="mx-auto flex h-14 w-full max-w-[906px] cursor-pointer items-center justify-center rounded-[14px] bg-[var(--button-primary)] text-4xl font-normal leading-11 text-[var(--button-white)] transition-colors duration-300 ease-out hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
+            className="mx-auto flex h-12 w-full max-w-[906px] cursor-pointer items-center justify-center rounded-[14px] bg-[var(--button-primary)] text-4 font-normal leading-11 text-[var(--button-white)] transition-colors duration-300 ease-out hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
           >
             Add Question
           </button>

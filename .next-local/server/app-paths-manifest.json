@@ -1,1 +1,8 @@
-{}
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/(admin)/admin/exams/create/questions/page": "app/(admin)/admin/exams/create/questions/page.js",
+  "/(student)/student/dashboard/page": "app/(student)/student/dashboard/page.js",
+  "/(admin)/admin/exams/create/page": "app/(admin)/admin/exams/create/page.js",
+  "/(student)/student/exams/[examId]/page": "app/(student)/student/exams/[examId]/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js"
+}

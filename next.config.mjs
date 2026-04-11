@@ -7,7 +7,7 @@ const nextConfig = {
     // Avoid child-process worker spawn errors (EPERM) on restricted Windows environments.
     workerThreads: true,
   },
-  ...(isVercel ? {} : { distDir: ".next-local" }),
+  ...(isVercel ? {} : { distDir: ".next-fresh" }),
 };
 
 export default nextConfig;

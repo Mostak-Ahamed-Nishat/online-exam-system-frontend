@@ -67,7 +67,10 @@ export function AppHeader({ panel = "admin" }) {
         <div className="flex flex-1 items-center gap-3">
           <HeaderLogo href={homeHref} />
           {isAdminPanel ? (
-            <nav className="hidden items-center gap-5 md:flex" aria-label="Admin navigation">
+            <nav
+              className="hidden items-center gap-5 md:flex"
+              aria-label="Admin navigation"
+            >
               <Link
                 href="/admin/dashboard"
                 className={cn(
@@ -81,7 +84,9 @@ export function AppHeader({ panel = "admin" }) {
                 href="/admin/exams/create"
                 className={cn(
                   "text-base font-normal leading-6 text-[#130B2C] transition-opacity hover:opacity-80",
-                  safePathname?.startsWith("/admin/exams/create") ? "font-medium" : "",
+                  safePathname?.startsWith("/admin/exams/create")
+                    ? "font-medium"
+                    : "",
                 )}
               >
                 Online Test
@@ -91,11 +96,11 @@ export function AppHeader({ panel = "admin" }) {
         </div>
 
         {isAuthPage ? (
-          <div className="flex-1 text-center text-2xl font-normal leading-8 text-[var(--text-primary)]">
+          <div className="flex-1 text-center text-sm font-normal leading-5 text-[var(--text-primary)] md:text-2xl md:leading-8">
             Akij Resource
           </div>
         ) : isStudentPanel ? (
-          <div className="flex-1 text-center text-xl font-normal leading-7 text-[var(--text-primary)] lg:text-2xl lg:leading-8">
+          <div className="flex-1 text-center text-sm font-normal leading-5 text-[var(--text-primary)] md:text-xl md:leading-7 lg:text-2xl lg:leading-8">
             Akij Resource
           </div>
         ) : (
@@ -111,7 +116,7 @@ export function AppHeader({ panel = "admin" }) {
               <button
                 type="button"
                 onClick={() => setIsProfileMenuOpen((prev) => !prev)}
-                className="inline-flex items-center gap-1 rounded-full px-1 text-[var(--icon-gray)] transition-opacity hover:opacity-90"
+                className="inline-flex items-center gap-2 rounded-full px-1 text-[var(--icon-gray)] transition-opacity hover:opacity-90"
                 aria-label="Open user menu"
                 aria-expanded={isProfileMenuOpen}
                 aria-haspopup="menu"
@@ -119,18 +124,21 @@ export function AppHeader({ panel = "admin" }) {
                 <span className="grid h-10 w-10 place-items-center rounded-full bg-[#f1f3f7] text-[var(--icon-gray)]">
                   <User className="h-5 w-5" />
                 </span>
+                <div className="hidden text-left sm:block">
+                  <div className="max-w-[180px] truncate text-sm font-semibold leading-5 text-[var(--text-primary)]">
+                    {displayName}
+                  </div>
+                  <div className="max-w-[180px] truncate text-[11px] font-normal leading-4 text-[var(--test-subtext)]">
+                    Ref.ID: {displayStudentId}
+                  </div>
+                </div>
                 <ChevronDown
-                  className={`h-4 w-4 transition-transform ${isProfileMenuOpen ? "rotate-180" : ""}`}
+                  className={cn(
+                    "hidden h-4 w-4 shrink-0 self-center transition-transform sm:block",
+                    isProfileMenuOpen ? "rotate-180" : "",
+                  )}
                 />
               </button>
-              <div className="hidden text-right sm:block">
-                <div className="max-w-[180px] truncate text-sm font-semibold leading-5 text-[var(--text-primary)]">
-                  {displayName}
-                </div>
-                <div className="max-w-[180px] truncate text-[11px] font-normal leading-4 text-[var(--test-subtext)]">
-                  Ref.ID: {displayStudentId}
-                </div>
-              </div>
 
               {isProfileMenuOpen ? (
                 <div

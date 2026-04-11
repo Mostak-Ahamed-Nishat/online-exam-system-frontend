@@ -31,7 +31,7 @@ export function StudentExamCard({ exam, onStart, isStarting }) {
           variant="outline"
           disabled={isStarting}
           onClick={onStart}
-          className="h-auto rounded-xl border-[var(--border-primary)] bg-[var(--button-white)] px-3.5 py-2.5 text-sm font-semibold text-[var(--button-primary)] transition-colors duration-300 ease-out hover:border-[var(--button-primary)] hover:bg-[var(--button-primary)] hover:text-[var(--button-white)] disabled:border-[var(--border-disabled)] disabled:bg-[var(--background-white)] disabled:text-[var(--test-subtext)]"
+          className="h-10 w-full max-w-35 rounded-xl border-[var(--border-primary)] bg-[var(--button-white)] px-3.5 text-center text-sm font-semibold text-[var(--button-primary)] transition-colors duration-300 ease-out hover:border-[var(--button-primary)] hover:bg-[var(--button-primary)] hover:text-[var(--button-white)] disabled:border-[var(--border-disabled)] disabled:bg-[var(--background-white)] disabled:text-[var(--test-subtext)]"
         >
           <span className="inline-flex items-center gap-2">
             {isStarting ? <Spinner className="h-4 w-4" /> : null}

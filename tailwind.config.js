@@ -11,6 +11,9 @@ module.exports = {
       },
     },
     extend: {
+      spacing: {
+        35: "8.75rem",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -65,4 +68,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-
