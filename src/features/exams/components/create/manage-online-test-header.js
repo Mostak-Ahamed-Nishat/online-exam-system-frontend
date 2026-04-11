@@ -39,10 +39,10 @@ export function ManageOnlineTestHeader({ step = "basic", backDisabled = false })
   const isQuestionsStep = step === "questions";
 
   return (
-    <div className="rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-6">
+    <div className="mx-auto w-full max-w-[1280px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-5">
-          <h1 className="text-xl font-semibold leading-[30px] text-[var(--text-primary)]">
+          <h1 className="text-[20px] font-medium leading-[30px] text-[var(--text-primary)]">
             Manage Online Test
           </h1>
           <div className="flex items-center gap-3">

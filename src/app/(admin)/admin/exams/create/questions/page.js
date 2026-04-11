@@ -48,11 +48,11 @@ export default function CreateQuestionSetsPage() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-screen-xl space-y-6">
+    <section className="mx-auto w-full max-w-[1280px] space-y-6">
       <ManageOnlineTestHeader step="questions" backDisabled={isSubmittingExam} />
 
       {questions.length > 0 ? (
-        <div className="mx-auto w-full max-w-screen-xl rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-6">
+        <div className="mx-auto w-full max-w-[1280px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-6">
           <div className="space-y-6">
             {questions.map((question, index) => (
               <QuestionSummaryCard
@@ -105,7 +105,7 @@ export default function CreateQuestionSetsPage() {
           </div>
         </div>
       ) : (
-        <div className="mx-auto w-full max-w-screen-xl rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
+        <div className="mx-auto w-full max-w-[1280px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
           <button
             type="button"
             onClick={() => {
