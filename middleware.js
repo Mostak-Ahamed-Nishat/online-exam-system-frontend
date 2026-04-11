@@ -12,7 +12,7 @@ export function middleware(request) {
 
   const isAdminRoute = pathname.startsWith("/admin");
   const isStudentRoute = pathname.startsWith("/student");
-  const isAuthRoute = pathname === "/login";
+  const isAuthRoute = pathname === "/login" || pathname === "/signup";
   const isLegacyEmployerRoute = pathname.startsWith("/employer");
   const isLegacyCandidateRoute = pathname.startsWith("/candidate");
 
@@ -67,5 +67,13 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/admin/:path*", "/student/:path*", "/employer/:path*", "/candidate/:path*"],
+  matcher: [
+    "/",
+    "/login",
+    "/signup",
+    "/admin/:path*",
+    "/student/:path*",
+    "/employer/:path*",
+    "/candidate/:path*",
+  ],
 };

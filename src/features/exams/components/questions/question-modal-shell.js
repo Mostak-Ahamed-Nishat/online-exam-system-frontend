@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -8,15 +9,26 @@ import { ChevronDown, Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
-import { RichTextEditor } from "./rich-text-editor";
 import { questionModalSchema, toPlainText } from "../../validation/question-modal.schema";
+
+const RichTextEditor = dynamic(
+  () => import("./rich-text-editor").then((module) => module.RichTextEditor),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[120px] w-full rounded-[10px] border border-[var(--border-disabled)] bg-[var(--background-white)]" />
+    ),
+  },
+);
 
 const QUESTION_TYPES = ["Checkbox", "Radio", "Text"];
 const OPTION_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+let optionIdCounter = 0;
 
 function createDefaultOption(index = 0) {
+  optionIdCounter += 1;
   return {
-    id: `opt-${Date.now()}-${index}`,
+    id: `opt-${index}-${optionIdCounter}`,
     content: "",
     correct: false,
   };

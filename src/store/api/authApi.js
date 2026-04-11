@@ -2,6 +2,13 @@ import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    register: builder.mutation({
+      query: (body) => ({ url: "/auth/register", method: "POST", body }),
+      transformResponse: (response) => ({
+        message: response?.message ?? "",
+        verificationLink: response?.verificationLink ?? null,
+      }),
+    }),
     me: builder.query({
       query: () => ({ url: "/auth/me", method: "GET" }),
       transformResponse: (response) => response?.data ?? null,
@@ -21,4 +28,10 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useMeQuery, useLazyMeQuery, useLoginMutation, useLogoutMutation } = authApi;
+export const {
+  useRegisterMutation,
+  useMeQuery,
+  useLazyMeQuery,
+  useLoginMutation,
+  useLogoutMutation,
+} = authApi;

@@ -55,6 +55,8 @@ export function RichTextEditor({
     onUpdate: ({ editor: instance }) => {
       onChange?.(instance.getHTML());
     },
+    // Prevent SSR/client markup drift in Next.js App Router.
+    immediatelyRender: false,
   });
 
   useEffect(() => {

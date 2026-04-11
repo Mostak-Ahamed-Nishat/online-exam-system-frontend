@@ -1,10 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { Check } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { QuestionModalShell } from "@/features/exams/components/questions/question-modal-shell";
 import { QuestionsDraftLoader } from "@/features/exams/components/questions/questions-draft-loader";
 import { QuestionSummaryCard } from "@/features/exams/components/questions/question-summary-card";
 import { SubmitExamButton } from "@/features/exams/components/questions/submit-exam-button";
@@ -12,6 +12,14 @@ import { useCreateExamSubmit } from "@/features/exams/hooks/use-create-exam-subm
 import { useQuestionBuilder } from "@/features/exams/hooks/use-question-builder";
 import { selectDraftBasicInfo } from "@/store/slices/examDraftSlice";
 import { cn } from "@/lib/utils";
+
+const QuestionModalShell = dynamic(
+  () =>
+    import("@/features/exams/components/questions/question-modal-shell").then(
+      (module) => module.QuestionModalShell,
+    ),
+  { ssr: false },
+);
 
 function getSubmitStatusText(phase) {
   if (phase === "creating_exam") return "Creating exam...";

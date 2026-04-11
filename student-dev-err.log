@@ -1,0 +1,6 @@
+[Error: EPERM: operation not permitted, open 'E:\Tutorial\ExamSystem\frontend\.next\trace'] {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'open',
+  path: 'E:\\Tutorial\\ExamSystem\\frontend\\.next\\trace'
+}

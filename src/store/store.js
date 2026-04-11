@@ -4,12 +4,14 @@ import { authApi } from "./api/authApi";
 import { examApi } from "./api/examApi";
 import { authReducer } from "./slices/authSlice";
 import { examDraftReducer } from "./slices/examDraftSlice";
+import { studentDashboardReducer } from "./slices/studentDashboardSlice";
 import { saveExamDraftToStorage } from "@/features/exams/utils/exam-draft-storage";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     examDraft: examDraftReducer,
+    studentDashboard: studentDashboardReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

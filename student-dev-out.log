@@ -1,0 +1,18 @@
+
+> examfrontend@1.0.0 dev
+> next dev --port 4023
+
+  ▲ Next.js 14.2.25
+  - Local:        http://localhost:4023
+
+ ✓ Starting...
+ ✓ Ready in 6.7s
+ ○ Compiling /login ...
+ ✓ Compiled /student/dashboard in 26.9s (744 modules)
+ ✓ Compiled in 1154ms (355 modules)
+ ✓ Compiled in 1032ms (355 modules)
+ ✓ Compiled in 527ms (355 modules)
+ ✓ Compiled in 698ms (355 modules)
+ ✓ Compiled in 534ms (355 modules)
+ ✓ Compiled in 594ms (341 modules)
+ ✓ Compiled in 630ms (355 modules)

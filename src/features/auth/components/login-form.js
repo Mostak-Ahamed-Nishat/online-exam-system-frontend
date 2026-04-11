@@ -132,6 +132,13 @@ export function LoginForm() {
           {isAuthLoading ? "Signing In..." : "Sign In"}
         </Button>
       </form>
+
+      <p className="mt-4 text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className="font-semibold text-foreground hover:text-primary">
+          Sign Up
+        </Link>
+      </p>
     </div>
   );
 }
