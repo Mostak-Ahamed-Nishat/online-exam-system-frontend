@@ -1,13 +1,13 @@
-export default function HomePage() {
-  return (
-    <main className="min-h-dvh p-6">
-      <div className="mx-auto max-w-3xl space-y-3">
-        <h1 className="text-2xl font-semibold">Frontend scaffold ready</h1>
-        <p className="text-sm text-muted-foreground">
-          Next.js 14 + App Router + Redux Toolkit/RTK Query + shadcn/ui + Tailwind.
-        </p>
-      </div>
-    </main>
-  );
-}
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
+export default function HomePage() {
+  const panel = cookies().get("panel")?.value;
+  const isLoggedIn = cookies().get("mock_session")?.value === "1";
+
+  if (!isLoggedIn) {
+    redirect("/login");
+  }
+
+  redirect(panel === "student" ? "/student/dashboard" : "/admin/dashboard");
+}
