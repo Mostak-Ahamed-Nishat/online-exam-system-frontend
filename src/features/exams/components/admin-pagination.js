@@ -12,8 +12,8 @@ export function AdminPagination({
   onPerPageChange,
 }) {
   return (
-    <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-      <div className="inline-flex items-center gap-2">
+    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="inline-flex items-center gap-2 self-start sm:self-auto">
         <button
           type="button"
           onClick={onPrev}
@@ -37,8 +37,8 @@ export function AdminPagination({
         </button>
       </div>
 
-      <div className="inline-flex items-center gap-2 text-[14px] font-normal text-[var(--test-subtext)]">
-        <span>Online Test Per Page</span>
+      <div className="inline-flex w-full items-center justify-between gap-3 text-[14px] font-normal text-[var(--test-subtext)] sm:w-auto sm:justify-start">
+        <span className="whitespace-nowrap">Tests per page</span>
         <SimpleSelect
           value={perPage}
           onChange={(nextValue) => onPerPageChange(Number(nextValue))}
@@ -47,7 +47,7 @@ export function AdminPagination({
             { label: "12", value: 12 },
             { label: "16", value: 16 },
           ]}
-          className="min-w-[56px]"
+          className="min-w-[64px] shrink-0"
           triggerClassName="h-7 rounded-md px-2 py-0 text-[14px] font-medium"
           panelClassName="min-w-[72px]"
         />

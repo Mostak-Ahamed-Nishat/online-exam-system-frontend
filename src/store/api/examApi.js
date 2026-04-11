@@ -19,8 +19,34 @@ export const examApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Exam"],
     }),
+    createExamBasicInfo: builder.mutation({
+      query: (payload) => ({
+        url: "/admin/exams",
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Exam"],
+    }),
+    addExamQuestion: builder.mutation({
+      query: ({ examId, payload }) => ({
+        url: `/admin/exams/${examId}/questions`,
+        method: "POST",
+        body: payload,
+      }),
+    }),
+    deleteExam: builder.mutation({
+      query: (examId) => ({
+        url: `/admin/exams/${examId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Exam"],
+    }),
   }),
 });
 
-export const { useGetAdminExamsQuery } = examApi;
-
+export const {
+  useGetAdminExamsQuery,
+  useCreateExamBasicInfoMutation,
+  useAddExamQuestionMutation,
+  useDeleteExamMutation,
+} = examApi;

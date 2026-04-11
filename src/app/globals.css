@@ -76,4 +76,16 @@
     height: 100%;
     cursor: pointer;
   }
+
+  .tiptap-editor .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--test-disable);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .tiptap-editor .ProseMirror p {
+    margin: 0;
+  }
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useMeQuery } from "@/store/api/authApi";
+import { Spinner } from "@/components/ui/spinner";
 import { clearAuth, setUser } from "@/store/slices/authSlice";
 import { clearClientSession, setClientCookie } from "../utils/session";
 
@@ -42,7 +43,15 @@ export function ProtectedRoute({ allowedRole, panel, children }) {
 
   if (!mounted || isLoading) {
     return (
-      <div className="py-10 text-sm text-muted-foreground">Checking authentication...</div>
+      <section
+        className="flex w-full items-center justify-center py-10"
+        role="status"
+        aria-live="polite"
+        aria-label="Loading"
+      >
+        <Spinner className="h-5 w-5 text-[var(--text-primary)]" />
+        <span className="sr-only">Checking authentication</span>
+      </section>
     );
   }
 

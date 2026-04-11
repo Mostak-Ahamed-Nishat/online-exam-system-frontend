@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const createBasicInfoSchema = z
   .object({
-    title: z.string().trim().min(1, "Online Test Title is required"),
+    title: z.string().trim().min(3, "Online Test Title must be at least 3 characters"),
     totalCandidates: z.coerce.number().int().min(1, "Total Candidates is required"),
     totalSlots: z.string().trim().min(1, "Total Slots is required"),
     totalQuestionSet: z.string().trim().min(1, "Total Question Set is required"),
@@ -15,4 +15,3 @@ export const createBasicInfoSchema = z
     message: "End Time must be later than Start Time",
     path: ["endTime"],
   });
-

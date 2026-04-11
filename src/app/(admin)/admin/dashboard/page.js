@@ -7,6 +7,8 @@ import { AdminExamCard } from "@/features/exams/components/admin-exam-card";
 import { AdminEmptyState } from "@/features/exams/components/admin-empty-state";
 import { AdminPagination } from "@/features/exams/components/admin-pagination";
 import { buttonVariants } from "@/components/ui/button";
+import { LoadingState } from "@/components/ui/loading-state";
+import { ErrorState } from "@/components/ui/error-state";
 import { cn } from "@/lib/utils";
 import { useGetAdminExamsQuery } from "@/store/api/examApi";
 
@@ -17,7 +19,7 @@ export default function AdminDashboardPage() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
 
-  const { data, isLoading, isFetching, isError } = useGetAdminExamsQuery({
+  const { data, isLoading, isFetching, isError, refetch } = useGetAdminExamsQuery({
     search: debouncedSearch,
     page,
     limit: perPage,
@@ -53,20 +55,16 @@ export default function AdminDashboardPage() {
 
   if (!mounted) {
     return (
-      <section>
+      <section className="mx-auto w-full max-w-[1280px]">
         <div className="mt-8">
-          <section className="w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14">
-            <p className="text-center text-[14px] font-normal text-[var(--test-subtext)]">
-              Loading online tests...
-            </p>
-          </section>
+          <LoadingState message="Loading online tests..." />
         </div>
       </section>
     );
   }
 
   return (
-    <section>
+    <section className="mx-auto w-full max-w-[1280px]">
       <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
         <h1 className="text-2xl font-semibold leading-[48px] text-[var(--text-primary)]">
           Online Tests
@@ -95,19 +93,11 @@ export default function AdminDashboardPage() {
 
       <div className="mt-8">
         {isLoading ? (
-          <section className="w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14">
-            <p className="text-center text-[14px] font-normal text-[var(--test-subtext)]">
-              Loading online tests...
-            </p>
-          </section>
+          <LoadingState message="Loading online tests..." />
         ) : null}
 
         {isError ? (
-          <section className="w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14">
-            <p className="text-center text-[14px] font-normal text-[var(--button-warning)]">
-              Failed to load online tests.
-            </p>
-          </section>
+          <ErrorState message="Failed to load online tests." onRetry={refetch} retryLabel="Reload" />
         ) : null}
 
         {isEmpty ? (
@@ -140,9 +130,13 @@ export default function AdminDashboardPage() {
               }}
             />
             {isFetching ? (
-              <p className="mt-2 text-[12px] font-normal text-[var(--test-subtext)]">
-                Updating...
-              </p>
+              <LoadingState
+                inline
+                message="Updating..."
+                className="mt-2"
+                spinnerClassName="h-3 w-3"
+                textClassName="text-[12px]"
+              />
             ) : null}
           </>
         ) : null}

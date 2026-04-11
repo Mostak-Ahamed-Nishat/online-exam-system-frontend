@@ -4,7 +4,8 @@
   "description": "The Online Assessment Platform is a application designed to streamline the process of creating, managing, and participating in online exams. The platform consists of two main panels: an Admin Panel for test creation and management, and a Candidate Panel for taking online test.",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

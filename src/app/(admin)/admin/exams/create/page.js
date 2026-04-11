@@ -27,7 +27,7 @@ export default function CreateOnlineTestPage() {
             href="/admin/dashboard"
             className={cn(
               buttonVariants({ variant: "outline" }),
-              "h-11 rounded-[12px] border-[var(--border-disabled)] px-6 text-[14px] font-semibold",
+              "h-11 rounded-[12px] border-[var(--border-disabled)] px-6 text-[14px] font-semibold text-[var(--text-primary)] hover:border-[var(--border-primary)] hover:text-[var(--button-primary)]",
             )}
           >
             Back to Dashboard
