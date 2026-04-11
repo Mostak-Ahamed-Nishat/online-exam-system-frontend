@@ -23,6 +23,26 @@ const rawBaseQuery = fetchBaseQuery({
   credentials: "include",
 });
 
+const clearClientAuthState = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("auth_user");
+  document.cookie = "auth_access=; path=/; max-age=0; samesite=lax";
+  document.cookie = "app_session=; path=/; max-age=0; samesite=lax";
+  document.cookie = "panel=; path=/; max-age=0; samesite=lax";
+};
+
+const redirectToLogin = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.location.replace("/login");
+};
+
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await rawBaseQuery(args, api, extraOptions);
 
@@ -41,15 +61,16 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         document.cookie = `auth_access=${encodeURIComponent(refreshedAccessToken)}; path=/; samesite=lax`;
       }
       result = await rawBaseQuery(args, api, extraOptions);
+
+      if (result?.error?.status === 401) {
+        api.dispatch(clearAuth());
+        clearClientAuthState();
+        redirectToLogin();
+      }
     } else {
       api.dispatch(clearAuth());
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("auth_user");
-        document.cookie = "auth_access=; path=/; max-age=0; samesite=lax";
-        document.cookie = "app_session=; path=/; max-age=0; samesite=lax";
-        document.cookie = "panel=; path=/; max-age=0; samesite=lax";
-      }
+      clearClientAuthState();
+      redirectToLogin();
     }
   }
 

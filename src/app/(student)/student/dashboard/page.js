@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { LoadingState } from "@/components/ui/loading-state";
@@ -31,6 +32,7 @@ function mapStudentExamCard(exam) {
 
 export default function StudentDashboardPage() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const search = useSelector(selectStudentDashboardSearch);
   const page = useSelector(selectStudentDashboardPage);
   const perPage = useSelector(selectStudentDashboardPerPage);
@@ -80,7 +82,7 @@ export default function StudentDashboardPage() {
     try {
       setStartingExamId(examId);
       await startStudentExam(examId).unwrap();
-      toast.success("Exam started successfully.");
+      router.push(`/student/exams/${examId}`);
     } catch (error) {
       const message =
         error?.data?.message || error?.error || error?.message || "Unable to start exam right now.";

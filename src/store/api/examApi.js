@@ -61,6 +61,79 @@ export const examApi = baseApi.injectEndpoints({
       },
       providesTags: ["Exam"],
     }),
+    getStudentExamInstructions: builder.query({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/instructions`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    getStudentExamSession: builder.query({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/session`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    getStudentCurrentQuestion: builder.query({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/questions/current`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    updateStudentCurrentQuestion: builder.mutation({
+      query: ({ examId, payload }) => ({
+        url: `/candidate/exams/${examId}/questions/current`,
+        method: "PATCH",
+        body: payload,
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    getStudentQuestionNavigation: builder.query({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/navigation`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    submitStudentExam: builder.mutation({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/submit`,
+        method: "POST",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    timeoutSubmitStudentExam: builder.mutation({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/timeout-submit`,
+        method: "POST",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    syncStudentOfflineAnswers: builder.mutation({
+      query: ({ examId, payload }) => ({
+        url: `/candidate/exams/${examId}/offline-sync`,
+        method: "POST",
+        body: payload,
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    getStudentOfflineSyncState: builder.query({
+      query: (examId) => ({
+        url: `/candidate/exams/${examId}/offline-sync`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
+    reportStudentIntegrityEvent: builder.mutation({
+      query: ({ examId, payload }) => ({
+        url: `/candidate/exams/${examId}/integrity-events`,
+        method: "POST",
+        body: payload,
+      }),
+      transformResponse: (response) => response?.data ?? null,
+    }),
     createExamBasicInfo: builder.mutation({
       query: (payload) => ({
         url: "/admin/exams",
@@ -88,6 +161,7 @@ export const examApi = baseApi.injectEndpoints({
         url: `/candidate/exams/${examId}/start`,
         method: "POST",
       }),
+      transformResponse: (response) => response?.data ?? null,
     }),
   }),
 });
@@ -95,6 +169,16 @@ export const examApi = baseApi.injectEndpoints({
 export const {
   useGetAdminExamsQuery,
   useGetStudentExamsQuery,
+  useGetStudentExamInstructionsQuery,
+  useLazyGetStudentExamSessionQuery,
+  useLazyGetStudentCurrentQuestionQuery,
+  useUpdateStudentCurrentQuestionMutation,
+  useLazyGetStudentQuestionNavigationQuery,
+  useSubmitStudentExamMutation,
+  useTimeoutSubmitStudentExamMutation,
+  useSyncStudentOfflineAnswersMutation,
+  useLazyGetStudentOfflineSyncStateQuery,
+  useReportStudentIntegrityEventMutation,
   useCreateExamBasicInfoMutation,
   useAddExamQuestionMutation,
   useDeleteExamMutation,
