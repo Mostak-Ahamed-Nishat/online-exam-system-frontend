@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useMeQuery } from "@/store/api/authApi";
@@ -19,6 +19,14 @@ export function ProtectedRoute({ allowedRole, children }) {
   const [hasClientSessionCookie, setHasClientSessionCookie] = useState(false);
   const [cookieChecked, setCookieChecked] = useState(false);
 
+  const redirectToLogin = useCallback(() => {
+    if (typeof window !== "undefined") {
+      window.location.replace("/login");
+      return;
+    }
+    router.replace("/login");
+  }, [router]);
+
   useEffect(() => {
     setHasClientSessionCookie(document.cookie.includes("app_session=1"));
     setCookieChecked(true);
@@ -35,7 +43,7 @@ export function ProtectedRoute({ allowedRole, children }) {
     if (!hasClientSessionCookie) {
       dispatch(clearAuth());
       clearClientSession();
-      router.replace("/login");
+      redirectToLogin();
       return;
     }
     if (isLoading) return;
@@ -43,7 +51,7 @@ export function ProtectedRoute({ allowedRole, children }) {
     if (isError || !data?.role) {
       dispatch(clearAuth());
       clearClientSession();
-      router.replace("/login");
+      redirectToLogin();
       return;
     }
 
@@ -55,7 +63,18 @@ export function ProtectedRoute({ allowedRole, children }) {
     if (allowedRole && data.role !== allowedRole) {
       router.replace(data.role === "ADMIN" ? "/admin/dashboard" : "/student/dashboard");
     }
-  }, [allowedRole, cookieChecked, data, dispatch, hasClientSessionCookie, isError, isHydrated, isLoading, router]);
+  }, [
+    allowedRole,
+    cookieChecked,
+    data,
+    dispatch,
+    hasClientSessionCookie,
+    isError,
+    isHydrated,
+    isLoading,
+    redirectToLogin,
+    router,
+  ]);
 
   if (!isHydrated || !cookieChecked || (hasClientSessionCookie && isLoading)) {
     return (

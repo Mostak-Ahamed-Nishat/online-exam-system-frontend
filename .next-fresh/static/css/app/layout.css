@@ -1636,9 +1636,6 @@ video {
 .text-center {
   text-align: center;
 }
-.text-right {
-  text-align: right;
-}
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -1705,9 +1702,6 @@ video {
 }
 .leading-7 {
   line-height: 1.75rem;
-}
-.leading-8 {
-  line-height: 2rem;
 }
 .leading-\[22px\] {
   line-height: 22px;

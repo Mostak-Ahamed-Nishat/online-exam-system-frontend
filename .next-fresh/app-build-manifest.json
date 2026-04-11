@@ -5,10 +5,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/global-error.js"
     ],
-    "/(student)/student/exams/[examId]/page": [
+    "/(student)/student/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(student)/student/exams/[examId]/page.js"
+      "static/chunks/app/(student)/student/dashboard/page.js"
+    ],
+    "/(student)/student/dashboard/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(student)/student/dashboard/loading.js"
     ],
     "/(student)/layout": [
       "static/chunks/webpack.js",
@@ -31,25 +36,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/(auth)/login/page": [
+    "/(admin)/admin/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(auth)/login/page.js"
+      "static/chunks/app/(admin)/admin/dashboard/page.js"
     ],
-    "/(auth)/layout": [
+    "/(admin)/admin/dashboard/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(auth)/layout.js"
+      "static/chunks/app/(admin)/admin/dashboard/loading.js"
     ],
-    "/(student)/student/dashboard/page": [
+    "/(admin)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(student)/student/dashboard/page.js"
-    ],
-    "/(student)/student/dashboard/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(student)/student/dashboard/loading.js"
+      "static/chunks/app/(admin)/layout.js"
     ]
   }
 }

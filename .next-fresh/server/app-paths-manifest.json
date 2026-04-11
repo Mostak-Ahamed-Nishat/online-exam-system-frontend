@@ -1,5 +1,4 @@
 {
   "/(student)/student/dashboard/page": "app/(student)/student/dashboard/page.js",
-  "/(student)/student/exams/[examId]/page": "app/(student)/student/exams/[examId]/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js"
+  "/(admin)/admin/dashboard/page": "app/(admin)/admin/dashboard/page.js"
 }
