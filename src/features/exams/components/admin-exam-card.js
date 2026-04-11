@@ -31,7 +31,7 @@ export function AdminExamCard({ exam }) {
       <div className="mt-6">
         <Button
           variant="outline"
-          className="h-auto rounded-[12px] border-[var(--border-primary)] px-[14px] py-[10px] text-[14px] font-semibold text-[var(--button-primary)] hover:bg-[var(--button-lightblue)]"
+          className="h-auto rounded-[12px] border-[var(--border-primary)] bg-[var(--button-white)] px-[14px] py-[10px] text-[14px] font-semibold text-[var(--button-primary)] transition-colors duration-300 ease-out hover:border-[var(--button-primary)] hover:bg-[var(--button-primary)] hover:text-[var(--button-white)]"
         >
           View Candidates
         </Button>

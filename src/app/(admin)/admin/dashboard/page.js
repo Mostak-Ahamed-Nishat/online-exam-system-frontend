@@ -1,20 +1,24 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AdminExamSearch } from "@/features/exams/components/admin-exam-search";
 import { AdminExamCard } from "@/features/exams/components/admin-exam-card";
 import { AdminEmptyState } from "@/features/exams/components/admin-empty-state";
 import { AdminPagination } from "@/features/exams/components/admin-pagination";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useGetAdminExamsQuery } from "@/store/api/examApi";
 
 export default function AdminDashboardPage() {
-  const [search, setSearch] = useState("");
+  const [mounted, setMounted] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
 
   const { data, isLoading, isFetching, isError } = useGetAdminExamsQuery({
-    search,
+    search: debouncedSearch,
     page,
     limit: perPage,
   });
@@ -30,30 +34,62 @@ export default function AdminDashboardPage() {
   const isEmpty = !isLoading && !isError && exams.length === 0;
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (page > totalPages) {
       setPage(totalPages);
     }
   }, [page, totalPages]);
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearch(searchInput.trim());
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
+
+  if (!mounted) {
+    return (
+      <section>
+        <div className="mt-8">
+          <section className="w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14">
+            <p className="text-center text-[14px] font-normal text-[var(--test-subtext)]">
+              Loading online tests...
+            </p>
+          </section>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section>
       <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
-        <h1 className="text-[40px] font-normal leading-[48px] text-[var(--text-primary)]">
+        <h1 className="text-2xl font-semibold leading-[48px] text-[var(--text-primary)]">
           Online Tests
         </h1>
 
         <div className="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:items-center lg:gap-4">
           <AdminExamSearch
-            value={search}
+            value={searchInput}
             className="lg:w-[621px]"
             onChange={(value) => {
-              setSearch(value);
+              setSearchInput(value);
               setPage(1);
             }}
           />
-          <Button className="h-11 rounded-[12px] px-6 text-[14px] font-semibold">
+          <Link
+            href="/admin/exams/create"
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "h-11 rounded-[12px] px-6 text-[14px] font-semibold",
+            )}
+          >
             Create Online Test
-          </Button>
+          </Link>
         </div>
       </div>
 

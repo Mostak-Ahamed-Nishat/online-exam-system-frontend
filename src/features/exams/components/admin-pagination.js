@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { SimpleSelect } from "@/components/ui/simple-select";
 
 export function AdminPagination({
   page,
@@ -38,16 +39,18 @@ export function AdminPagination({
 
       <div className="inline-flex items-center gap-2 text-[14px] font-normal text-[var(--test-subtext)]">
         <span>Online Test Per Page</span>
-        <select
+        <SimpleSelect
           value={perPage}
-          onChange={(event) => onPerPageChange(Number(event.target.value))}
-          className="h-7 min-w-12 cursor-pointer rounded-md border border-[var(--border-inputfield)] bg-[var(--background-white)] px-2 text-[14px] font-medium text-[var(--text-primary)] focus:outline-none"
-          aria-label="Online Test Per Page"
-        >
-          <option value={8}>8</option>
-          <option value={12}>12</option>
-          <option value={16}>16</option>
-        </select>
+          onChange={(nextValue) => onPerPageChange(Number(nextValue))}
+          options={[
+            { label: "8", value: 8 },
+            { label: "12", value: 12 },
+            { label: "16", value: 16 },
+          ]}
+          className="min-w-[56px]"
+          triggerClassName="h-7 rounded-md px-2 py-0 text-[14px] font-medium"
+          panelClassName="min-w-[72px]"
+        />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useMeQuery } from "@/store/api/authApi";
@@ -10,9 +10,17 @@ import { clearClientSession, setClientCookie } from "../utils/session";
 export function ProtectedRoute({ allowedRole, panel, children }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data, isLoading, isError } = useMeQuery();
+  const [mounted, setMounted] = useState(false);
+  const { data, isLoading, isError } = useMeQuery(undefined, {
+    skip: !mounted,
+  });
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (isLoading) return;
 
     if (isError || !data?.role) {
@@ -30,9 +38,9 @@ export function ProtectedRoute({ allowedRole, panel, children }) {
     if (allowedRole && data.role !== allowedRole) {
       router.replace(data.role === "ADMIN" ? "/admin/dashboard" : "/student/dashboard");
     }
-  }, [allowedRole, data, dispatch, isError, isLoading, router]);
+  }, [allowedRole, data, dispatch, isError, isLoading, mounted, panel, router]);
 
-  if (isLoading) {
+  if (!mounted || isLoading) {
     return (
       <div className="py-10 text-sm text-muted-foreground">Checking authentication...</div>
     );
@@ -44,4 +52,3 @@ export function ProtectedRoute({ allowedRole, panel, children }) {
 
   return children;
 }
-
