@@ -73,7 +73,7 @@ export function AttemptRichTextEditor({
 
         <div className="relative ml-1">
           <select
-            className="h-8 appearance-none rounded-md border border-transparent bg-transparent pl-2 pr-6 text-[14px] text-[var(--text-primary)] transition-colors hover:border-[var(--border-disabled)]"
+            className="h-8 appearance-none rounded-md border border-transparent bg-transparent pl-2 pr-6 text-sm text-[var(--text-primary)] transition-colors hover:border-[var(--border-disabled)]"
             defaultValue="p"
             onChange={(event) => runCommand("formatBlock", event.target.value)}
           >
@@ -100,7 +100,7 @@ export function AttemptRichTextEditor({
 
       <div className="relative">
         {isEmpty ? (
-          <span className="pointer-events-none absolute left-4 top-4 text-[16px] font-normal text-[var(--test-disable)]">
+          <span className="pointer-events-none absolute left-4 top-4 text-base font-normal text-[var(--test-disable)]">
             {placeholder}
           </span>
         ) : null}
@@ -112,7 +112,7 @@ export function AttemptRichTextEditor({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
-            "min-h-[240px] w-full px-4 py-4 text-[16px] font-medium leading-6 text-[var(--text-primary)] outline-none",
+            "min-h-60 w-full px-4 py-4 text-base font-medium leading-6 text-[var(--text-primary)] outline-none",
             isFocused ? "ring-1 ring-[var(--border-primary)]" : "",
           )}
         />

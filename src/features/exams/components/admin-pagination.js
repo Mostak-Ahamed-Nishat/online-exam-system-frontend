@@ -12,8 +12,8 @@ export function AdminPagination({
   onPerPageChange,
 }) {
   return (
-    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="inline-flex items-center gap-2 self-start sm:self-auto">
+    <div className="mt-4 grid grid-cols-2 items-center gap-3 md:flex md:items-center md:justify-between">
+      <div className="inline-flex items-center gap-2 justify-self-start">
         <button
           type="button"
           onClick={onPrev}
@@ -37,15 +37,20 @@ export function AdminPagination({
         </button>
       </div>
 
-      <div className="inline-flex w-full items-center justify-between gap-3 text-sm font-normal text-[var(--test-subtext)] sm:w-auto sm:justify-start">
-        <span className="whitespace-nowrap">Tests per page</span>
+      <div className="inline-flex items-center justify-self-end gap-2 text-sm font-normal text-[var(--test-subtext)] md:w-auto md:justify-start md:gap-3">
+        <span className="hidden whitespace-nowrap md:inline">Tests per page</span>
         <SimpleSelect
           value={perPage}
           onChange={(nextValue) => onPerPageChange(Number(nextValue))}
           options={[
-            { label: "8", value: 8 },
-            { label: "12", value: 12 },
-            { label: "16", value: 16 },
+            { label: "2", value: 2 },
+            { label: "5", value: 5 },
+            { label: "10", value: 10 },
+            { label: "15", value: 15 },
+            { label: "20", value: 20 },
+            { label: "25", value: 25 },
+            { label: "30", value: 30 },
+            { label: "35", value: 35 },
           ]}
           className="min-w-16 shrink-0"
           triggerClassName="h-7 rounded-md px-2 py-0 text-sm font-medium"
@@ -55,4 +60,3 @@ export function AdminPagination({
     </div>
   );
 }
-

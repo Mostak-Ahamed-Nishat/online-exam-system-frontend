@@ -14,8 +14,8 @@ function StudentExamMetaItem({ icon, label, value }) {
 
 export function StudentExamCard({ exam, onStart, isStarting }) {
   return (
-    <article className="w-full max-h-[208px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-8">
-      <h3 className="line-clamp-2 text-xl font-normal leading-[30px] text-[var(--text-primary)]">
+    <article className="w-full max-h-52 rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-8">
+      <h3 className="line-clamp-2 text-xl font-normal leading-normal text-[var(--text-primary)]">
         {exam.title}
       </h3>
 

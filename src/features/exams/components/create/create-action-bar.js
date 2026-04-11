@@ -21,7 +21,7 @@ export function CreateActionBar({
           href={cancelHref}
           className={cn(
             buttonVariants({ variant: "outline" }),
-            "h-12 min-w-[124px] rounded-[10px] border-[var(--border-disabled)] text-sm font-semibold",
+            "h-12 w-full max-w-[180px] rounded-[10px] border-[var(--border-disabled)] text-sm font-semibold",
             cancelDisabled ? "pointer-events-none opacity-50" : "",
           )}
           aria-disabled={cancelDisabled}

@@ -26,7 +26,13 @@ function getSubmitStatusText(phase) {
 
 export default function CreateQuestionSetsPage() {
   const basicInfo = useSelector(selectDraftBasicInfo);
-  const { isSubmittingExam, submitPhase, submitError, clearSubmitError, submitExam } = useCreateExamSubmit();
+  const {
+    isSubmittingExam,
+    submitPhase,
+    submitError,
+    clearSubmitError,
+    submitExam,
+  } = useCreateExamSubmit();
 
   const {
     hydrated,
@@ -48,11 +54,14 @@ export default function CreateQuestionSetsPage() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-[1280px] space-y-6">
-      <ManageOnlineTestHeader step="questions" backDisabled={isSubmittingExam} />
+    <section className="mx-auto w-full max-w-7xl space-y-6">
+      <ManageOnlineTestHeader
+        step="questions"
+        backDisabled={isSubmittingExam}
+      />
 
       {questions.length > 0 ? (
-        <div className="mx-auto w-full max-w-[1280px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-6">
+        <div className="mx-auto w-full max-w-7xl rounded-[14px]">
           <div className="space-y-6">
             {questions.map((question, index) => (
               <QuestionSummaryCard
@@ -69,22 +78,26 @@ export default function CreateQuestionSetsPage() {
               />
             ))}
 
-            <button
-              type="button"
-              onClick={() => {
-                clearSubmitError();
-                openAddQuestion();
-              }}
-              disabled={isSubmittingExam}
-              className="flex h-14 w-full cursor-pointer items-center justify-center rounded-[14px] bg-[var(--button-primary)] text-xl font-medium leading-[30px] text-[var(--button-white)] transition-colors duration-300 ease-out hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
-            >
-              Add Question
-            </button>
+            <div className="mx-auto w-full max-w-[954px] bg-[var(--background-white)] p-6">
+              <button
+                type="button"
+                onClick={() => {
+                  clearSubmitError();
+                  openAddQuestion();
+                }}
+                disabled={isSubmittingExam}
+                className="mx-auto flex h-14 w-full max-w-[906px] cursor-pointer items-center justify-center rounded-[14px] bg-[var(--button-primary)] text-xl font-medium leading-normal text-[var(--button-white)] transition-colors duration-300 ease-out hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
+              >
+                Add Question
+              </button>
+            </div>
 
             {submitError ? (
               <div className="rounded-[10px] border border-[var(--button-warning)]/30 bg-[var(--button-warning)]/5 px-4 py-3">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-[13px] text-[var(--button-warning)]">{submitError}</p>
+                  <p className="text-[13px] text-[var(--button-warning)]">
+                    {submitError}
+                  </p>
                   <button
                     type="button"
                     onClick={clearSubmitError}
@@ -105,7 +118,7 @@ export default function CreateQuestionSetsPage() {
           </div>
         </div>
       ) : (
-        <div className="mx-auto w-full max-w-[1280px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
+        <div className="mx-auto w-full max-w-[954px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
           <button
             type="button"
             onClick={() => {
@@ -113,7 +126,7 @@ export default function CreateQuestionSetsPage() {
               openAddQuestion();
             }}
             disabled={isSubmittingExam}
-            className="flex h-14 w-full cursor-pointer items-center justify-center rounded-[14px] bg-[var(--button-primary)] text-4xl font-normal leading-11 text-[var(--button-white)] transition-colors duration-300 ease-out hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
+            className="mx-auto flex h-14 w-full max-w-[906px] cursor-pointer items-center justify-center rounded-[14px] bg-[var(--button-primary)] text-4xl font-normal leading-11 text-[var(--button-white)] transition-colors duration-300 ease-out hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
           >
             Add Question
           </button>
@@ -127,10 +140,11 @@ export default function CreateQuestionSetsPage() {
         questionNumber={nextQuestionNumber}
         initialQuestion={editingQuestion}
         forcedType={forcedQuestionType}
-        onDeleteQuestion={editingQuestion ? () => removeQuestion(editingQuestion.id) : null}
+        onDeleteQuestion={
+          editingQuestion ? () => removeQuestion(editingQuestion.id) : null
+        }
         resetSignal={modalResetSignal}
       />
     </section>
   );
 }
-

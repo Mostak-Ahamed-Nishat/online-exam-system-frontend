@@ -17,18 +17,18 @@ function ExamMetaItem({ icon, label, value }) {
 
 export function AdminExamCard({ exam }) {
   return (
-    <article className="w-full max-h-[208px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-8">
-      <h3 className="line-clamp-2 text-xl font-normal leading-[30px] text-[var(--text-primary)]">
+    <article className="h-52 w-full max-w-[632px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-8">
+      <h3 className="line-clamp-2 text-xl font-normal leading-normal text-[var(--text-primary)]">
         {exam.title}
       </h3>
 
-      <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3">
+      <div className="mt-3 flex flex-wrap items-center gap-x-8 gap-y-3">
         <ExamMetaItem icon="/assets/user-group.png" label="Candidates" value={exam.candidates} />
         <ExamMetaItem icon="/assets/file.png" label="Question Set" value={exam.questionSet} />
         <ExamMetaItem icon="/assets/timeline.png" label="Exam Slots" value={exam.examSlots} />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-5">
         <Button
           variant="outline"
           className="h-auto rounded-xl border-[var(--border-primary)] bg-[var(--button-white)] px-3.5 py-2.5 text-sm font-semibold text-[var(--button-primary)] transition-colors duration-300 ease-out hover:border-[var(--button-primary)] hover:bg-[var(--button-primary)] hover:text-[var(--button-white)]"

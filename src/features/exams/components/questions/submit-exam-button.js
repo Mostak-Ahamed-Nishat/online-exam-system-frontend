@@ -5,7 +5,7 @@ export function SubmitExamButton({ isSubmitting, onClick, disabled, statusText }
     <button
       type="button"
       onClick={onClick}
-      className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-[14px] bg-[var(--button-primary)] text-lg font-semibold text-[var(--button-white)] transition-opacity duration-300 hover:opacity-95 disabled:cursor-not-allowed disabled:bg-[var(--button-disabled)]"
+      className="mx-auto flex h-14 w-full max-w-[906px] cursor-pointer items-center justify-center gap-2 rounded-[14px] border border-[var(--border-primary)] bg-[var(--button-white)] text-lg font-semibold text-[var(--button-primary)] transition-colors duration-300 hover:bg-[var(--button-lightblue)] disabled:cursor-not-allowed disabled:border-[var(--border-disabled)] disabled:bg-[var(--background-white)] disabled:text-[var(--test-subtext)]"
       disabled={disabled || isSubmitting}
       aria-busy={isSubmitting}
     >

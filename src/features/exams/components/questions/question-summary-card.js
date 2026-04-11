@@ -24,10 +24,10 @@ export function QuestionSummaryCard({
   );
 
   return (
-    <article className="rounded-xl border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-5">
+    <article className="mx-auto w-full max-w-[954px] rounded-xl border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-xl font-normal leading-[30px] text-[var(--text-primary)]">Question {index}</h3>
+          <h3 className="text-xl font-normal leading-normal text-[var(--text-primary)]">Question {index}</h3>
           <div className="flex items-center gap-2">
             <span className="rounded-full border border-[var(--border-disabled)] px-3 py-1 text-xs font-medium text-[var(--test-subtext)]">
               {normalizeTypeLabel(type)}

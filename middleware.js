@@ -1,11 +1,51 @@
 import { NextResponse } from "next/server";
 
+function decodeJwtPayload(token) {
+  try {
+    const [, payloadPart] = token.split(".");
+    if (!payloadPart) {
+      return null;
+    }
+
+    const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=");
+    const json = atob(padded);
+    return JSON.parse(json);
+  } catch (_error) {
+    return null;
+  }
+}
+
+function hasValidAccessToken(token) {
+  if (!token) {
+    return false;
+  }
+
+  const payload = decodeJwtPayload(token);
+  if (!payload || typeof payload.exp !== "number") {
+    return false;
+  }
+
+  return payload.exp * 1000 > Date.now();
+}
+
+function redirectToLoginWithCookieCleanup(request) {
+  const nextUrl = request.nextUrl.clone();
+  nextUrl.pathname = "/login";
+  const response = NextResponse.redirect(nextUrl);
+  response.cookies.delete("auth_access");
+  response.cookies.delete("app_session");
+  response.cookies.delete("panel");
+  return response;
+}
+
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
   const panel = request.cookies.get("panel")?.value;
   const hasSessionCookie = request.cookies.get("app_session")?.value === "1";
-  const hasAccessCookie = Boolean(request.cookies.get("auth_access")?.value);
+  const accessToken = request.cookies.get("auth_access")?.value;
+  const hasAccessCookie = hasValidAccessToken(accessToken);
   const hasValidPanel = panel === "admin" || panel === "student";
   const isAuthenticated = hasSessionCookie && hasAccessCookie && hasValidPanel;
   const dashboardPath = panel === "student" ? "/student/dashboard" : "/admin/dashboard";
@@ -27,12 +67,11 @@ export function middleware(request) {
 
   // Always start at a login screen when not logged in.
   if (pathname === "/") {
-    const nextUrl = request.nextUrl.clone();
     if (!isAuthenticated) {
-      nextUrl.pathname = "/login";
-      return NextResponse.redirect(nextUrl);
+      return redirectToLoginWithCookieCleanup(request);
     }
 
+    const nextUrl = request.nextUrl.clone();
     nextUrl.pathname = dashboardPath;
     return NextResponse.redirect(nextUrl);
   }
@@ -45,9 +84,7 @@ export function middleware(request) {
 
   // Guard admin/student panels.
   if (!isAuthenticated && (isAdminRoute || isStudentRoute) && !isAuthRoute) {
-    const nextUrl = request.nextUrl.clone();
-    nextUrl.pathname = "/login";
-    return NextResponse.redirect(nextUrl);
+    return redirectToLoginWithCookieCleanup(request);
   }
 
   // Protect panel boundaries after login.

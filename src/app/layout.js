@@ -1,6 +1,13 @@
 import "./globals.css";
+import { Inter } from "next/font/google";
 import { Providers } from "./providers";
-import { Toaster } from "sonner";
+import { AppToaster } from "@/components/ui/app-toaster";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Online Exam System",
@@ -9,11 +16,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="min-h-dvh bg-[var(--background-color)] text-[var(--text-primary)]">
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${inter.className} min-h-dvh bg-[var(--background-color)] text-[var(--text-primary)]`}>
         <Providers>
           {children}
-          <Toaster richColors position="top-right" />
+          <AppToaster />
         </Providers>
       </body>
     </html>

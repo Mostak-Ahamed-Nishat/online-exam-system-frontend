@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useMeQuery } from "@/store/api/authApi";
@@ -16,16 +16,22 @@ export function ProtectedRoute({ allowedRole, children }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const isHydrated = useSelector(selectAuthIsHydrated);
-  const hasClientSessionCookie =
-    typeof document !== "undefined" && document.cookie.includes("app_session=1");
-  const shouldSkipMeQuery = !isHydrated || !hasClientSessionCookie;
+  const [hasClientSessionCookie, setHasClientSessionCookie] = useState(false);
+  const [cookieChecked, setCookieChecked] = useState(false);
+
+  useEffect(() => {
+    setHasClientSessionCookie(document.cookie.includes("app_session=1"));
+    setCookieChecked(true);
+  }, []);
+
+  const shouldSkipMeQuery = !isHydrated || !cookieChecked || !hasClientSessionCookie;
 
   const { data, isLoading, isError } = useMeQuery(undefined, {
     skip: shouldSkipMeQuery,
   });
 
   useEffect(() => {
-    if (!isHydrated) return;
+    if (!isHydrated || !cookieChecked) return;
     if (!hasClientSessionCookie) {
       dispatch(clearAuth());
       clearClientSession();
@@ -49,9 +55,9 @@ export function ProtectedRoute({ allowedRole, children }) {
     if (allowedRole && data.role !== allowedRole) {
       router.replace(data.role === "ADMIN" ? "/admin/dashboard" : "/student/dashboard");
     }
-  }, [allowedRole, data, dispatch, hasClientSessionCookie, isError, isHydrated, isLoading, router]);
+  }, [allowedRole, cookieChecked, data, dispatch, hasClientSessionCookie, isError, isHydrated, isLoading, router]);
 
-  if (!isHydrated || (hasClientSessionCookie && isLoading)) {
+  if (!isHydrated || !cookieChecked || (hasClientSessionCookie && isLoading)) {
     return (
       <section
         className="flex w-full items-center justify-center py-10"

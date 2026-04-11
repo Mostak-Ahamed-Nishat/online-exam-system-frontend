@@ -7,10 +7,10 @@ export function HeaderLogo({ href = "/", className = "" }) {
       <Image
         src="/assets/brand/HeaderLogo.png"
         alt="AKIJ Resource"
-        width={170}
-        height={36}
+        width={116}
+        height={32}
         priority
-        className="h-9 w-auto"
+        className="h-8 max-w-[116px] w-auto"
       />
     </Link>
   );

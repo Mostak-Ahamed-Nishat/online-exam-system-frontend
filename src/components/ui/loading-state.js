@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Spinner } from "./spinner";
+import { LumaSpin } from "./luma-spin";
 
 export function LoadingState({
   message = "Loading...",
@@ -11,8 +11,8 @@ export function LoadingState({
   if (inline) {
     return (
       <div className={cn("flex items-center gap-2", className)} role="status" aria-live="polite">
-        <Spinner className={cn("h-4 w-4 text-[var(--text-primary)]", spinnerClassName)} />
-        <p className={cn("text-sm font-normal text-[var(--test-subtext)]", textClassName)}>{message}</p>
+        <LumaSpin className={cn("h-5 w-5", spinnerClassName)} />
+        <p className={cn("sr-only", textClassName)}>{message}</p>
       </div>
     );
   }
@@ -26,11 +26,9 @@ export function LoadingState({
       role="status"
       aria-live="polite"
     >
-      <div className="flex items-center justify-center gap-2">
-        <Spinner className={cn("h-4 w-4 text-[var(--text-primary)]", spinnerClassName)} />
-        <p className={cn("text-center text-sm font-normal text-[var(--test-subtext)]", textClassName)}>
-          {message}
-        </p>
+      <div className="flex items-center justify-center">
+        <LumaSpin className={cn("h-10 w-10", spinnerClassName)} />
+        <p className={cn("sr-only", textClassName)}>{message}</p>
       </div>
     </section>
   );
