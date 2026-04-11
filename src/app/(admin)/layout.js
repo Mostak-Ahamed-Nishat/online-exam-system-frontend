@@ -1,6 +1,27 @@
 import { PanelShell } from "@/components/layout/panel-shell";
+import { ProtectedRoute } from "@/features/auth/components/protected-route";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function AdminLayout({ children }) {
-  return <PanelShell panel="admin">{children}</PanelShell>;
-}
+  const cookieStore = cookies();
+  const panel = cookieStore.get("panel")?.value;
+  const hasSession = cookieStore.get("app_session")?.value === "1";
+  const hasAccess = Boolean(cookieStore.get("auth_access")?.value);
 
+  if (!hasSession || !hasAccess || !panel) {
+    redirect("/login");
+  }
+
+  if (panel !== "admin") {
+    redirect("/student/dashboard");
+  }
+
+  return (
+    <PanelShell panel="admin">
+      <ProtectedRoute allowedRole="ADMIN" panel="admin">
+        {children}
+      </ProtectedRoute>
+    </PanelShell>
+  );
+}

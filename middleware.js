@@ -4,9 +4,10 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
 
   const panel = request.cookies.get("panel")?.value;
-  const hasSessionCookie = request.cookies.get("mock_session")?.value === "1";
+  const hasSessionCookie = request.cookies.get("app_session")?.value === "1";
+  const hasAccessCookie = Boolean(request.cookies.get("auth_access")?.value);
   const hasValidPanel = panel === "admin" || panel === "student";
-  const isAuthenticated = hasSessionCookie && hasValidPanel;
+  const isAuthenticated = hasSessionCookie && hasAccessCookie && hasValidPanel;
   const dashboardPath = panel === "student" ? "/student/dashboard" : "/admin/dashboard";
 
   const isAdminRoute = pathname.startsWith("/admin");

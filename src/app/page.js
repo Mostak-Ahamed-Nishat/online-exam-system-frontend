@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 export default function HomePage() {
   const panel = cookies().get("panel")?.value;
-  const isLoggedIn = cookies().get("mock_session")?.value === "1";
+  const isLoggedIn = cookies().get("app_session")?.value === "1";
 
   if (!isLoggedIn) {
     redirect("/login");

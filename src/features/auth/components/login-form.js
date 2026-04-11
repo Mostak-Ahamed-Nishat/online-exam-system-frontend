@@ -6,43 +6,26 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import { useDispatch } from "react-redux";
 import { loginSchema } from "../validation/login-schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useLazyMeQuery, useLoginMutation } from "@/store/api/authApi";
+import { clearAuth, setCredentials, setUser } from "@/store/slices/authSlice";
+import { clearClientSession, setClientCookie } from "../utils/session";
 
-function setCookie(name, value) {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; samesite=lax`;
-}
-
-const MOCK_ADMIN_CREDENTIALS = {
-  email: "admin@akij.com",
-  password: "admin123",
-};
-
-const MOCK_STUDENT_CREDENTIALS = {
-  email: "student@akij.com",
-  password: "student123",
-};
-
-function resolveRole(values) {
-  const emailOrId = values.email.trim().toLowerCase();
-  const password = values.password.trim();
-
-  if (emailOrId === MOCK_ADMIN_CREDENTIALS.email && password === MOCK_ADMIN_CREDENTIALS.password) {
-    return "admin";
-  }
-
-  if (emailOrId === MOCK_STUDENT_CREDENTIALS.email && password === MOCK_STUDENT_CREDENTIALS.password) {
-    return "student";
-  }
-
-  return null;
+function saveAuthState(accessToken, user) {
+  localStorage.setItem("access_token", accessToken);
+  localStorage.setItem("auth_user", JSON.stringify(user));
 }
 
 export function LoginForm() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
+  const [fetchMe, { isLoading: isFetchingMe }] = useLazyMeQuery();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
@@ -50,20 +33,34 @@ export function LoginForm() {
   });
 
   const onSubmit = async (values) => {
-    // Mock auth with role-based redirect.
-    if (!values.email.trim() || !values.password.trim()) return;
+    try {
+      const loginRes = await login({
+        email: values.email.trim().toLowerCase(),
+        password: values.password,
+      }).unwrap();
 
-    const role = resolveRole(values);
-    if (!role) {
+      if (!loginRes?.accessToken) {
+        throw new Error("Access token missing");
+      }
+
+      dispatch(setCredentials({ accessToken: loginRes.accessToken }));
+      const me = await fetchMe().unwrap();
+
+      const panel = me?.role === "ADMIN" ? "admin" : "student";
+      dispatch(setUser(me));
+      saveAuthState(loginRes.accessToken, me);
+
+      setClientCookie("panel", panel);
+      setClientCookie("app_session", "1");
+      setClientCookie("auth_access", loginRes.accessToken);
+
+      toast.success("Signed in");
+      router.push(panel === "admin" ? "/admin/dashboard" : "/student/dashboard");
+    } catch (_error) {
+      dispatch(clearAuth());
+      clearClientSession();
       toast.error("Invalid credentials");
-      return;
     }
-
-    setCookie("panel", role);
-    setCookie("mock_session", "1");
-
-    toast.success("Signed in");
-    router.push(role === "student" ? "/student/dashboard" : "/admin/dashboard");
   };
 
   const {
@@ -71,6 +68,7 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = form;
+  const isAuthLoading = isSubmitting || isLoggingIn || isFetchingMe;
 
   return (
     <div className="w-full">
@@ -107,7 +105,7 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute inset-y-0 right-3 inline-flex items-center text-[#A6A6A6] hover:text-[#4B5563]"
+              className="absolute inset-y-0 right-3 inline-flex cursor-pointer items-center text-[var(--icon-gray)] hover:text-[var(--icon-black)]"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -129,9 +127,9 @@ export function LoginForm() {
         <Button
           type="submit"
           className="h-12 w-full rounded-xl"
-          disabled={isSubmitting}
+          disabled={isAuthLoading}
         >
-          Sign In
+          {isAuthLoading ? "Signing In..." : "Sign In"}
         </Button>
       </form>
     </div>

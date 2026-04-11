@@ -3,7 +3,7 @@ import { AppHeader } from "./app-header";
 
 export function PanelShell({ panel, children }) {
   return (
-    <div className="min-h-dvh bg-[#fbfbfe] text-foreground">
+    <div className="min-h-dvh bg-[var(--background-color)] text-foreground">
       <div className="flex min-h-dvh flex-col">
         <AppHeader panel={panel} />
         <main className="flex-1">
@@ -14,4 +14,3 @@ export function PanelShell({ panel, children }) {
     </div>
   );
 }
-

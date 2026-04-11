@@ -1,27 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { User } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { HeaderLogo } from "@/components/brand/header-logo";
+import { LogoutButton } from "@/features/auth/components/logout-button";
 
 export function AppHeader({ panel = "admin" }) {
-  const pathname = usePathname();
-  const isAuthPage = pathname?.includes("/login");
-  const sectionLabel =
-    pathname?.includes("/dashboard")
-      ? "Dashboard"
-      : pathname?.includes("/tests")
-        ? "Online Test"
-        : "Online Test";
+  const isAuthPage = panel === "auth";
+  const sectionLabel = "Dashboard";
 
-  const switchHref = panel === "student" ? "/admin/dashboard" : "/student/dashboard";
-  const switchLabel = panel === "student" ? "Admin Panel" : "Student Panel";
   const homeHref = panel === "student" ? "/student/dashboard" : panel === "auth" ? "/login" : "/admin/dashboard";
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--border-inputfield)] bg-[var(--header-bg)]">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-3 px-4">
         <HeaderLogo href={homeHref} />
 
@@ -39,16 +30,8 @@ export function AppHeader({ panel = "admin" }) {
 
         {!isAuthPage ? (
           <>
-            <Link
-              href={switchHref}
-              className={cn(
-                "hidden rounded-full border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent md:inline-flex",
-              )}
-            >
-              {switchLabel}
-            </Link>
-
             <div className="flex items-center gap-2">
+              <LogoutButton />
               <div className="hidden text-right sm:block">
                 <div className="text-sm font-medium leading-5">User</div>
                 <div className="text-[11px] text-muted-foreground leading-4">Ref. ID - 000000</div>
