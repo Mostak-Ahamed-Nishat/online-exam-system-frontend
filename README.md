@@ -43,12 +43,7 @@ Full-stack online exam system with separate Admin and Candidate workflows.
   - text answer marks input
   - evaluated/publish flow
   - publish all ready results
-- Analytics:
-  - total submitted vs pending
-  - average score
-  - pass/fail counts
-  - candidate result table
-  - CSV export
+
 
 ### Candidate Panel
 - Authentication (login/logout)
@@ -64,12 +59,6 @@ Full-stack online exam system with separate Admin and Candidate workflows.
   - timer-based expiration handling
   - manual submit
   - timeout submit
-- Integrity and anti-cheat events:
-  - tab switch
-  - fullscreen exit
-  - copy-paste
-  - right-click
-  - auto-submit on max violation
 - Offline support:
   - offline answer sync
   - sync state fetch on reconnect
