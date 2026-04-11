@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { CreateFormField } from "./create-form-field";
 import { createBasicInfoSchema } from "../../validation/create-basic-info.schema";
 
 export function CreateBasicInfoForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -34,6 +36,7 @@ export function CreateBasicInfoForm() {
     await new Promise((resolve) => {
       setTimeout(resolve, 600);
     });
+    router.push("/admin/exams/create/questions");
   };
 
   return (
