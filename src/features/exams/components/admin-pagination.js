@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function AdminPagination({
   page,
@@ -38,17 +38,17 @@ export function AdminPagination({
 
       <div className="inline-flex items-center gap-2 text-[14px] font-normal text-[var(--test-subtext)]">
         <span>Online Test Per Page</span>
-        <button
-          type="button"
-          onClick={onPerPageChange}
-          className="inline-flex h-7 min-w-10 cursor-pointer items-center justify-center gap-1 rounded-md border border-[var(--border-inputfield)] bg-[var(--background-white)] px-2 text-[14px] font-medium text-[var(--text-primary)]"
-          aria-label="Change items per page"
+        <select
+          value={perPage}
+          onChange={(event) => onPerPageChange(Number(event.target.value))}
+          className="h-7 min-w-12 cursor-pointer rounded-md border border-[var(--border-inputfield)] bg-[var(--background-white)] px-2 text-[14px] font-medium text-[var(--text-primary)] focus:outline-none"
+          aria-label="Online Test Per Page"
         >
-          {perPage}
-          <ChevronUp className="h-3.5 w-3.5 text-[var(--icon-gray)]" />
-        </button>
+          <option value={8}>8</option>
+          <option value={12}>12</option>
+          <option value={16}>16</option>
+        </select>
       </div>
     </div>
   );
 }
-

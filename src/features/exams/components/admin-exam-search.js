@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-export function AdminExamSearch({ value, onChange }) {
+export function AdminExamSearch({ value, onChange, className }) {
   return (
-    <div className="relative w-full max-w-[621px]">
+    <div className={cn("relative w-full max-w-[621px]", className)}>
       <Input
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -27,4 +28,3 @@ export function AdminExamSearch({ value, onChange }) {
     </div>
   );
 }
-

@@ -1,58 +1,39 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { AdminExamSearch } from "@/features/exams/components/admin-exam-search";
 import { AdminExamCard } from "@/features/exams/components/admin-exam-card";
 import { AdminEmptyState } from "@/features/exams/components/admin-empty-state";
 import { AdminPagination } from "@/features/exams/components/admin-pagination";
 import { Button } from "@/components/ui/button";
-
-const EXAMS = [
-  {
-    id: "1",
-    title: "Psychometric Test for Management Trainee Officer",
-    candidates: "10,000",
-    questionSet: "3",
-    examSlots: "3",
-  },
-  {
-    id: "2",
-    title: "Psychometric Test for Management Trainee Officer",
-    candidates: "10,000",
-    questionSet: "3",
-    examSlots: "3",
-  },
-  {
-    id: "3",
-    title: "Psychometric Test for Management Trainee Officer",
-    candidates: "Not Set",
-    questionSet: "Not Set",
-    examSlots: "Not Set",
-  },
-  {
-    id: "4",
-    title: "Psychometric Test for Management Trainee Officer",
-    candidates: "10,000",
-    questionSet: "3",
-    examSlots: "3",
-  },
-];
+import { useGetAdminExamsQuery } from "@/store/api/examApi";
 
 export default function AdminDashboardPage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
 
-  const filteredExams = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return EXAMS;
-    return EXAMS.filter((exam) => exam.title.toLowerCase().includes(q));
-  }, [search]);
+  const { data, isLoading, isFetching, isError } = useGetAdminExamsQuery({
+    search,
+    page,
+    limit: perPage,
+  });
 
-  const totalPages = Math.max(1, Math.ceil(filteredExams.length / perPage));
-  const start = (page - 1) * perPage;
-  const visibleExams = filteredExams.slice(start, start + perPage);
-  const isEmpty = filteredExams.length === 0;
+  const exams = data?.items ?? [];
+  const pagination = data?.pagination ?? {
+    total: 0,
+    page: 1,
+    limit: perPage,
+    totalPages: 1,
+  };
+  const totalPages = Math.max(1, pagination.totalPages || 1);
+  const isEmpty = !isLoading && !isError && exams.length === 0;
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [page, totalPages]);
 
   return (
     <section>
@@ -61,8 +42,15 @@ export default function AdminDashboardPage() {
           Online Tests
         </h1>
 
-        <div className="flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-center">
-          <AdminExamSearch value={search} onChange={setSearch} />
+        <div className="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:items-center lg:gap-4">
+          <AdminExamSearch
+            value={search}
+            className="lg:w-[621px]"
+            onChange={(value) => {
+              setSearch(value);
+              setPage(1);
+            }}
+          />
           <Button className="h-11 rounded-[12px] px-6 text-[14px] font-semibold">
             Create Online Test
           </Button>
@@ -70,13 +58,38 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="mt-8">
+        {isLoading ? (
+          <section className="w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14">
+            <p className="text-center text-[14px] font-normal text-[var(--test-subtext)]">
+              Loading online tests...
+            </p>
+          </section>
+        ) : null}
+
+        {isError ? (
+          <section className="w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14">
+            <p className="text-center text-[14px] font-normal text-[var(--button-warning)]">
+              Failed to load online tests.
+            </p>
+          </section>
+        ) : null}
+
         {isEmpty ? (
           <AdminEmptyState />
-        ) : (
+        ) : !isLoading && !isError ? (
           <>
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-              {visibleExams.map((exam) => (
-                <AdminExamCard key={exam.id} exam={exam} />
+              {exams.map((exam) => (
+                <AdminExamCard
+                  key={exam.id}
+                  exam={{
+                    id: exam.id,
+                    title: exam.title,
+                    candidates: exam.totalCandidates ?? "Not Set",
+                    questionSet: exam.totalQuestionSet ?? "Not Set",
+                    examSlots: exam.totalSlots ?? "Not Set",
+                  }}
+                />
               ))}
             </div>
             <AdminPagination
@@ -85,14 +98,18 @@ export default function AdminDashboardPage() {
               perPage={perPage}
               onPrev={() => setPage((prev) => Math.max(1, prev - 1))}
               onNext={() => setPage((prev) => Math.min(totalPages, prev + 1))}
-              onPerPageChange={() => {
-                const next = perPage === 8 ? 12 : perPage === 12 ? 16 : 8;
-                setPerPage(next);
+              onPerPageChange={(nextValue) => {
+                setPerPage(nextValue);
                 setPage(1);
               }}
             />
+            {isFetching ? (
+              <p className="mt-2 text-[12px] font-normal text-[var(--test-subtext)]">
+                Updating...
+              </p>
+            ) : null}
           </>
-        )}
+        ) : null}
       </div>
     </section>
   );

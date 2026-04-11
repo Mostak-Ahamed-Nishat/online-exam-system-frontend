@@ -17,7 +17,7 @@ function ExamMetaItem({ icon, label, value }) {
 
 export function AdminExamCard({ exam }) {
   return (
-    <article className="h-[208px] w-full max-w-[632px] rounded-[14px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-6 py-6">
+    <article className="h-[208px] w-full max-w-[632px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] px-6 py-6">
       <h3 className="line-clamp-2 text-[20px] font-normal leading-[30px] text-[var(--text-primary)]">
         {exam.title}
       </h3>
@@ -39,4 +39,3 @@ export function AdminExamCard({ exam }) {
     </article>
   );
 }
-
