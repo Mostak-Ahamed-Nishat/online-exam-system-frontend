@@ -17,6 +17,7 @@ export const examApi = baseApi.injectEndpoints({
           totalPages: 1,
         },
       }),
+      keepUnusedDataFor: 120,
       providesTags: ["Exam"],
     }),
     getStudentExams: builder.query({
@@ -59,6 +60,7 @@ export const examApi = baseApi.injectEndpoints({
           },
         };
       },
+      keepUnusedDataFor: 120,
       providesTags: ["Exam"],
     }),
     getStudentExamInstructions: builder.query({
@@ -67,6 +69,7 @@ export const examApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (response) => response?.data ?? null,
+      keepUnusedDataFor: 300,
     }),
     getStudentExamSession: builder.query({
       query: (examId) => ({
@@ -74,6 +77,7 @@ export const examApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (response) => response?.data ?? null,
+      keepUnusedDataFor: 0,
     }),
     getStudentCurrentQuestion: builder.query({
       query: (examId) => ({
@@ -81,6 +85,7 @@ export const examApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (response) => response?.data ?? null,
+      keepUnusedDataFor: 0,
     }),
     updateStudentCurrentQuestion: builder.mutation({
       query: ({ examId, payload }) => ({
@@ -96,6 +101,7 @@ export const examApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (response) => response?.data ?? null,
+      keepUnusedDataFor: 0,
     }),
     submitStudentExam: builder.mutation({
       query: (examId) => ({
@@ -125,6 +131,7 @@ export const examApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (response) => response?.data ?? null,
+      keepUnusedDataFor: 0,
     }),
     reportStudentIntegrityEvent: builder.mutation({
       query: ({ examId, payload }) => ({

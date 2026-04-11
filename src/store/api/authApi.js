@@ -12,6 +12,7 @@ export const authApi = baseApi.injectEndpoints({
     me: builder.query({
       query: () => ({ url: "/auth/me", method: "GET" }),
       transformResponse: (response) => response?.data ?? null,
+      keepUnusedDataFor: 300,
       providesTags: ["Auth"],
     }),
     login: builder.mutation({

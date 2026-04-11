@@ -12,7 +12,15 @@ import { Input } from "@/components/ui/input";
 import { useRegisterMutation } from "@/store/api/authApi";
 
 function resolveSignupError(error) {
+  const statusCode = error?.status ?? error?.data?.statusCode;
+  if (statusCode === 409) {
+    return "Email already registered. Please sign in.";
+  }
+
   if (typeof error?.data?.message === "string" && error.data.message.length > 0) {
+    if (/email already registered/i.test(error.data.message)) {
+      return "Email already registered. Please sign in.";
+    }
     return error.data.message;
   }
 
@@ -45,7 +53,16 @@ export function SignupForm() {
       toast.success(response?.message || "Registration successful");
       form.reset({ fullName: "", email: "", password: "" });
     } catch (error) {
-      toast.error(resolveSignupError(error));
+      const message = resolveSignupError(error);
+
+      if (/email already registered/i.test(message)) {
+        form.setError("email", {
+          type: "server",
+          message,
+        });
+      }
+
+      toast.error(message);
     }
   };
 
