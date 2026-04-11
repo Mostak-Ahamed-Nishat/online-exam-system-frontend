@@ -36,7 +36,7 @@ export function CreateFormField({
             options={options}
             placeholder={placeholder}
             error={error}
-            triggerClassName="text-[16px] font-medium"
+            triggerClassName="text-[16px] font-normal"
           />
         ) : (
           <Input
@@ -70,7 +70,7 @@ export function CreateFormField({
               field.onChange(event);
             }}
             className={cn(
-              "h-12 rounded-[10px] border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 text-[16px] font-medium placeholder:font-normal",
+              "h-12 rounded-[10px] border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 text-[16px] font-normal placeholder:font-normal",
               isTime ? "time-input cursor-pointer appearance-none pr-11" : "",
               error ? "border-[var(--button-warning)]" : "",
             )}

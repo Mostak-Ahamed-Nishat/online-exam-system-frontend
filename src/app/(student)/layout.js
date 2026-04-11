@@ -19,7 +19,7 @@ export default function StudentLayout({ children }) {
 
   return (
     <PanelShell panel="student">
-      <ProtectedRoute allowedRole="CANDIDATE" panel="student">
+      <ProtectedRoute allowedRole="CANDIDATE">
         {children}
       </ProtectedRoute>
     </PanelShell>

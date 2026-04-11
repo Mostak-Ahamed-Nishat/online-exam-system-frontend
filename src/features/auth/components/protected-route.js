@@ -1,27 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMeQuery } from "@/store/api/authApi";
 import { Spinner } from "@/components/ui/spinner";
-import { clearAuth, setUser } from "@/store/slices/authSlice";
+import {
+  clearAuth,
+  selectAuthIsHydrated,
+  setUser,
+} from "@/store/slices/authSlice";
 import { clearClientSession, setClientCookie } from "../utils/session";
 
-export function ProtectedRoute({ allowedRole, panel, children }) {
+export function ProtectedRoute({ allowedRole, children }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [mounted, setMounted] = useState(false);
+  const isHydrated = useSelector(selectAuthIsHydrated);
+  const hasClientSessionCookie =
+    typeof document !== "undefined" && document.cookie.includes("app_session=1");
+  const shouldSkipMeQuery = !isHydrated || !hasClientSessionCookie;
+
   const { data, isLoading, isError } = useMeQuery(undefined, {
-    skip: !mounted,
+    skip: shouldSkipMeQuery,
   });
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
+    if (!isHydrated) return;
+    if (!hasClientSessionCookie) {
+      dispatch(clearAuth());
+      clearClientSession();
+      router.replace("/login");
+      return;
+    }
     if (isLoading) return;
 
     if (isError || !data?.role) {
@@ -39,9 +49,9 @@ export function ProtectedRoute({ allowedRole, panel, children }) {
     if (allowedRole && data.role !== allowedRole) {
       router.replace(data.role === "ADMIN" ? "/admin/dashboard" : "/student/dashboard");
     }
-  }, [allowedRole, data, dispatch, isError, isLoading, mounted, panel, router]);
+  }, [allowedRole, data, dispatch, hasClientSessionCookie, isError, isHydrated, isLoading, router]);
 
-  if (!mounted || isLoading) {
+  if (!isHydrated || (hasClientSessionCookie && isLoading)) {
     return (
       <section
         className="flex w-full items-center justify-center py-10"
@@ -55,7 +65,7 @@ export function ProtectedRoute({ allowedRole, panel, children }) {
     );
   }
 
-  if (isError || !data?.role) {
+  if (!hasClientSessionCookie || isError || !data?.role) {
     return null;
   }
 

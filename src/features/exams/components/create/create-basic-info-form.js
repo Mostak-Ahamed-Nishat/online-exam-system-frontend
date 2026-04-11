@@ -130,7 +130,7 @@ export function CreateBasicInfoForm() {
 
   if (!isEditMode && hasSavedBasicInfo(info)) {
     return (
-      <div className="mx-auto w-full max-w-[954px] space-y-6">
+      <div className="mx-auto w-full max-w-[1280px] space-y-6">
         <div className="rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-[34px] leading-[42px] text-[var(--text-primary)]">Basic Information</h2>
@@ -217,7 +217,7 @@ export function CreateBasicInfoForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleSaveBasicInfo)} className="mx-auto w-full max-w-[954px] space-y-6">
+    <form onSubmit={handleSubmit(handleSaveBasicInfo)} className="mx-auto w-full max-w-[1280px] space-y-6">
       <div className="rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-6">
         <h2 className="text-[30px] leading-[38px] text-[var(--text-primary)]">Basic Information</h2>
 

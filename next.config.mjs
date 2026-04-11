@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
+const isVercel = process.env.VERCEL === "1" || process.env.VERCEL === "true";
+
 const nextConfig = {
   reactStrictMode: true,
-  distDir: ".next-local",
+  ...(isVercel ? {} : { distDir: ".next-local" }),
 };
 
 export default nextConfig;

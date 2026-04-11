@@ -1,8 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { clearAuth, setCredentials } from "../slices/authSlice";
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "http://localhost:5000/api";
+const rawBaseUrl =
+  process.env.NEXT_PUBLIC_API_BASE_URL?.trim() ||
+  "https://ibos-online-test-backend.vercel.app/api";
+
+const trimmedBaseUrl = rawBaseUrl.replace(/\/+$/, "");
+const baseUrl = /\/api$/i.test(trimmedBaseUrl)
+  ? trimmedBaseUrl
+  : `${trimmedBaseUrl}/api`;
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl,

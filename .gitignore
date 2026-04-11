@@ -3,6 +3,7 @@ node_modules/
 
 # next.js build output
 .next/
+.next-local/
 out/
 
 # production build
@@ -23,3 +24,5 @@ pnpm-debug.log*
 # misc
 .DS_Store
 *.pem
+
+.vercel

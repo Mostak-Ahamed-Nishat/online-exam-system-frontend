@@ -26,7 +26,9 @@ function Step({ number, label, active, done }) {
 export function CreateStepHeader() {
   return (
     <div className="rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-6">
-      <h1 className="text-[36px] leading-[44px] text-[var(--text-primary)]">Manage Online Test</h1>
+      <h1 className="text-[20px] font-semibold leading-[30px] text-[var(--text-primary)]">
+        Manage Online Test
+      </h1>
       <div className="mt-5 flex items-center gap-3">
         <Step number={1} label="Basic Info" active />
         <span className="h-px w-14 bg-[var(--border-disabled)]" />
@@ -35,4 +37,3 @@ export function CreateStepHeader() {
     </div>
   );
 }
-

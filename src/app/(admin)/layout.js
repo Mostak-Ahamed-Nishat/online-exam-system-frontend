@@ -19,7 +19,7 @@ export default function AdminLayout({ children }) {
 
   return (
     <PanelShell panel="admin">
-      <ProtectedRoute allowedRole="ADMIN" panel="admin">
+      <ProtectedRoute allowedRole="ADMIN">
         {children}
       </ProtectedRoute>
     </PanelShell>
