@@ -3,7 +3,7 @@ import { baseApi } from "./baseApi";
 export const examApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAdminExams: builder.query({
-      query: ({ search = "", page = 1, limit = 8 } = {}) => ({
+      query: ({ search = "", page = 1, limit = 5 } = {}) => ({
         url: "/admin/exams",
         method: "GET",
         params: { search, page, limit },
@@ -13,7 +13,7 @@ export const examApi = baseApi.injectEndpoints({
         pagination: response?.pagination ?? {
           total: 0,
           page: 1,
-          limit: 8,
+          limit: 5,
           totalPages: 1,
         },
       }),
@@ -22,7 +22,7 @@ export const examApi = baseApi.injectEndpoints({
     }),
     getStudentExams: builder.query({
       async queryFn(args = {}, _api, _extraOptions, baseQuery) {
-        const { search = "", page = 1, limit = 8 } = args;
+        const { search = "", page = 1, limit = 5 } = args;
         const result = await baseQuery({
           url: "/candidate/exams",
           method: "GET",
@@ -54,7 +54,7 @@ export const examApi = baseApi.injectEndpoints({
             pagination: response?.pagination ?? {
               total: 0,
               page: 1,
-              limit: 8,
+              limit: 5,
               totalPages: 1,
             },
           },

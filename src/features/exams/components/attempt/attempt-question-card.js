@@ -24,7 +24,7 @@ export function AttemptQuestionCard({
 
   return (
     <div className="mt-6 rounded-[18px] border border-[var(--border-disabled)] bg-[var(--background-white)] px-5 py-5 md:px-8 md:py-7">
-      <h3 className="text-xl font-semibold leading-normal text-[var(--text-primary)]">
+      <h3 className="text-base font-medium leading-6 text-[var(--text-primary)]">
         Q{currentOrder}. {currentQuestion.prompt}
       </h3>
 

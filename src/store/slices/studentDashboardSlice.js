@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   search: "",
   page: 1,
-  perPage: 8,
+  perPage: 5,
 };
 
 const studentDashboardSlice = createSlice({
@@ -36,4 +36,3 @@ export const selectStudentDashboardState = (state) => state.studentDashboard;
 export const selectStudentDashboardSearch = (state) => state.studentDashboard.search;
 export const selectStudentDashboardPage = (state) => state.studentDashboard.page;
 export const selectStudentDashboardPerPage = (state) => state.studentDashboard.perPage;
-

@@ -17,7 +17,7 @@ export default function AdminDashboardPage() {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(8);
+  const [perPage, setPerPage] = useState(5);
 
   const { data, isLoading, isFetching, isError, refetch } = useGetAdminExamsQuery({
     search: debouncedSearch,
