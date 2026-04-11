@@ -4,7 +4,7 @@ import { FooterLogo } from "@/components/brand/footer-logo";
 export function AppFooter() {
   return (
     <footer className="mt-auto w-full bg-[var(--footer-bg)] text-[var(--test-white)] md:fixed md:bottom-0 md:left-0 md:z-30">
-      <div className="mx-auto flex max-w-[1280px] flex-col gap-6 px-4 py-6 sm:flex-row sm:items-center sm:justify-between lg:max-h-[80px]">
+      <div className="mx-auto flex max-w-screen-xl flex-col gap-6 px-4 py-6 sm:flex-row sm:items-center sm:justify-between lg:max-h-20">
         <div className="flex items-center gap-3">
           <FooterLogo />
           <div className="text-sm">
@@ -34,3 +34,4 @@ export function AppFooter() {
     </footer>
   );
 }
+

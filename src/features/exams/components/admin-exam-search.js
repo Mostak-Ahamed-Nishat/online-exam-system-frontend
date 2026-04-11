@@ -11,7 +11,7 @@ export function AdminExamSearch({ value, onChange, className }) {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search by exam title"
-        className="h-11 rounded-[10px] border-[var(--border-primary)] bg-[var(--background-white)] pr-12 text-[14px] font-normal placeholder:text-[var(--test-disable)] focus-visible:ring-1"
+        className="h-11 rounded-[10px] border-[var(--border-primary)] bg-[var(--background-white)] pr-12 text-sm font-normal placeholder:text-[var(--test-disable)] focus-visible:ring-1"
       />
       <button
         type="button"
@@ -28,3 +28,4 @@ export function AdminExamSearch({ value, onChange, className }) {
     </div>
   );
 }
+

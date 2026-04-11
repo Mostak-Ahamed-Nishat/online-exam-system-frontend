@@ -39,7 +39,7 @@ export function AppHeader({ panel = "admin" }) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[var(--border-inputfield)] bg-[var(--header-bg)]">
-      <div className="mx-auto flex h-16 max-w-[1280px] items-center gap-3 px-4">
+      <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-3 px-4">
         <HeaderLogo href={homeHref} />
 
         {isAuthPage ? (
@@ -87,3 +87,4 @@ export function AppHeader({ panel = "admin" }) {
     </header>
   );
 }
+

@@ -49,7 +49,7 @@ export function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[120px] w-full px-4 py-3 text-[16px] text-[var(--text-primary)] focus:outline-none",
+          "min-h-[120px] w-full px-4 py-3 text-base text-[var(--text-primary)] focus:outline-none",
       },
     },
     onUpdate: ({ editor: instance }) => {
@@ -118,7 +118,7 @@ export function RichTextEditor({
           <select
             value={activeTextStyle}
             onChange={(event) => onTextStyleChange(event.target.value)}
-            className="h-7 cursor-pointer appearance-none rounded-[6px] border border-transparent bg-[var(--background-color)] pl-2 pr-7 text-[14px] text-[var(--text-primary)] transition-colors hover:border-[var(--border-disabled)]"
+            className="h-7 cursor-pointer appearance-none rounded-md border border-transparent bg-[var(--background-color)] pl-2 pr-7 text-sm text-[var(--text-primary)] transition-colors hover:border-[var(--border-disabled)]"
           >
             <option value="paragraph">Normal text</option>
             <option value="heading-2">Heading 2</option>
@@ -235,7 +235,7 @@ export function RichTextEditor({
       <EditorContent
         editor={editor}
         className={cn(
-          "tiptap-editor [&_.ProseMirror]:min-h-[120px] [&_.ProseMirror]:outline-none [&_.ProseMirror_h2]:text-[24px] [&_.ProseMirror_h2]:font-semibold [&_.ProseMirror_h2]:leading-[32px] [&_.ProseMirror_h3]:text-[20px] [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:leading-[28px]",
+          "tiptap-editor [&_.ProseMirror]:min-h-[120px] [&_.ProseMirror]:outline-none [&_.ProseMirror_h2]:text-2xl [&_.ProseMirror_h2]:font-semibold [&_.ProseMirror_h2]:leading-8 [&_.ProseMirror_h3]:text-xl [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:leading-7",
           compact ? "[&_.ProseMirror]:min-h-[92px]" : "",
         )}
       />
@@ -254,7 +254,7 @@ function ToolbarButton({ label, active = false, onClick, children }) {
       aria-label={label}
       onClick={onClick}
       className={cn(
-        "inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-[6px] text-[var(--icon-black)] transition-colors hover:bg-[var(--background-white)]",
+        "inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-md text-[var(--icon-black)] transition-colors hover:bg-[var(--background-white)]",
         active ? "bg-[var(--button-lightblue)] text-[var(--button-primary)]" : "",
       )}
     >
@@ -262,3 +262,4 @@ function ToolbarButton({ label, active = false, onClick, children }) {
     </button>
   );
 }
+

@@ -11,14 +11,15 @@ export function StudentEmptyState() {
           height={111}
           className="h-auto w-[126px]"
         />
-        <h3 className="mt-5 text-[40px] font-normal leading-[48px] text-[var(--text-primary)]">
+        <h3 className="mt-5 text-[40px] font-normal leading-12 text-[var(--text-primary)]">
           No Online Test Available
         </h3>
-        <p className="mt-3 text-[14px] font-normal leading-6 text-[var(--test-subtext)]">
+        <p className="mt-3 text-sm font-normal leading-6 text-[var(--test-subtext)]">
           Currently, there are no online tests available. Please check back later for updates.
         </p>
       </div>
     </section>
   );
 }
+
 

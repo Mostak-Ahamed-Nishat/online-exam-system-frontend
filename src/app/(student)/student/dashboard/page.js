@@ -103,7 +103,7 @@ export default function StudentDashboardPage() {
   return (
     <section>
       <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
-        <h1 className="text-2xl font-semibold leading-[48px] text-[var(--text-primary)]">Online Tests</h1>
+        <h1 className="text-2xl font-semibold leading-12 text-[var(--text-primary)]">Online Tests</h1>
 
         <StudentExamSearch
           value={searchInput}
@@ -159,7 +159,7 @@ export default function StudentDashboardPage() {
                 message="Updating..."
                 className="mt-2"
                 spinnerClassName="h-3 w-3"
-                textClassName="text-[12px]"
+                textClassName="text-xs"
               />
             ) : null}
           </>
@@ -168,3 +168,4 @@ export default function StudentDashboardPage() {
     </section>
   );
 }
+

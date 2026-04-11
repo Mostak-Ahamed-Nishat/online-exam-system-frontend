@@ -24,7 +24,7 @@ export function CreateFormField({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <label className="text-[12px] font-normal text-[var(--test-subtext)]">
+      <label className="text-xs font-normal text-[var(--test-subtext)]">
         {label} {required ? <span className="text-[var(--button-warning)]">*</span> : null}
       </label>
 
@@ -36,7 +36,7 @@ export function CreateFormField({
             options={options}
             placeholder={placeholder}
             error={error}
-            triggerClassName="text-[16px] font-normal"
+            triggerClassName="text-base font-normal"
           />
         ) : (
           <Input
@@ -70,7 +70,7 @@ export function CreateFormField({
               field.onChange(event);
             }}
             className={cn(
-              "h-12 rounded-[10px] border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 text-[16px] font-normal placeholder:font-normal",
+              "h-12 rounded-[10px] border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 text-base font-normal placeholder:font-normal",
               isTime ? "time-input cursor-pointer appearance-none pr-11" : "",
               error ? "border-[var(--button-warning)]" : "",
             )}
@@ -82,8 +82,9 @@ export function CreateFormField({
       </div>
 
       {error ? (
-        <p className="text-[12px] font-normal text-[var(--button-warning)]">{error}</p>
+        <p className="text-xs font-normal text-[var(--button-warning)]">{error}</p>
       ) : null}
     </div>
   );
 }
+

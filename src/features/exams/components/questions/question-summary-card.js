@@ -24,25 +24,25 @@ export function QuestionSummaryCard({
   );
 
   return (
-    <article className="rounded-[12px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-5">
+    <article className="rounded-xl border border-[var(--border-disabled)] bg-[var(--background-white)] p-4 sm:p-5">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-[20px] font-normal leading-[30px] text-[var(--text-primary)]">Question {index}</h3>
+          <h3 className="text-xl font-normal leading-[30px] text-[var(--text-primary)]">Question {index}</h3>
           <div className="flex items-center gap-2">
-            <span className="rounded-full border border-[var(--border-disabled)] px-3 py-1 text-[12px] font-medium text-[var(--test-subtext)]">
+            <span className="rounded-full border border-[var(--border-disabled)] px-3 py-1 text-xs font-medium text-[var(--test-subtext)]">
               {normalizeTypeLabel(type)}
             </span>
-            <span className="rounded-full border border-[var(--border-disabled)] px-3 py-1 text-[12px] font-medium text-[var(--test-subtext)]">
+            <span className="rounded-full border border-[var(--border-disabled)] px-3 py-1 text-xs font-medium text-[var(--test-subtext)]">
               {score} pt
             </span>
           </div>
         </div>
 
-        {renderHtml(title, "text-[16px] font-semibold leading-[24px] text-[var(--text-primary)]")}
+        {renderHtml(title, "text-base font-semibold leading-6 text-[var(--text-primary)]")}
 
         {String(type).toLowerCase() === "text" ? (
-          <div className="rounded-[8px] bg-[var(--background-color)] px-3 py-2">
-            {renderHtml(textAnswer, "text-[14px] leading-[22px] text-[var(--test-subtext)]")}
+          <div className="rounded-lg bg-[var(--background-color)] px-3 py-2">
+            {renderHtml(textAnswer, "text-sm leading-[22px] text-[var(--test-subtext)]")}
           </div>
         ) : (
           <div className="space-y-2">
@@ -53,13 +53,13 @@ export function QuestionSummaryCard({
                 <div
                   key={option.id}
                   className={[
-                    "flex min-h-10 items-center justify-between rounded-[8px] px-3 py-2",
+                    "flex min-h-10 items-center justify-between rounded-lg px-3 py-2",
                     isCorrect ? "bg-[var(--background-color)]" : "border border-transparent",
                   ].join(" ")}
                 >
                   {renderHtml(
                     option.label,
-                    "text-[14px] font-normal leading-[22px] text-[var(--text-primary)]",
+                    "text-sm font-normal leading-[22px] text-[var(--text-primary)]",
                   )}
                   {isCorrect ? <CheckCircle2 className="h-4 w-4 text-[var(--button-success)]" /> : null}
                 </div>
@@ -88,3 +88,4 @@ export function QuestionSummaryCard({
     </article>
   );
 }
+

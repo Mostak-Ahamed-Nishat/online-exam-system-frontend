@@ -6,8 +6,8 @@ function StudentExamMetaItem({ icon, label, value }) {
   return (
     <div className="inline-flex items-center gap-2">
       <Image src={icon} alt="" width={16} height={16} />
-      <span className="text-[14px] font-normal text-[var(--test-subtext)]">{label}: </span>
-      <span className="text-[14px] font-medium text-[var(--text-primary)]">{value}</span>
+      <span className="text-sm font-normal text-[var(--test-subtext)]">{label}: </span>
+      <span className="text-sm font-medium text-[var(--text-primary)]">{value}</span>
     </div>
   );
 }
@@ -15,7 +15,7 @@ function StudentExamMetaItem({ icon, label, value }) {
 export function StudentExamCard({ exam, onStart, isStarting }) {
   return (
     <article className="w-full max-h-[208px] rounded-[14px] border border-[var(--border-disabled)] bg-[var(--background-white)] p-8">
-      <h3 className="line-clamp-2 text-[20px] font-normal leading-[30px] text-[var(--text-primary)]">
+      <h3 className="line-clamp-2 text-xl font-normal leading-[30px] text-[var(--text-primary)]">
         {exam.title}
       </h3>
 
@@ -31,7 +31,7 @@ export function StudentExamCard({ exam, onStart, isStarting }) {
           variant="outline"
           disabled={isStarting}
           onClick={onStart}
-          className="h-auto rounded-[12px] border-[var(--border-primary)] bg-[var(--button-white)] px-[14px] py-[10px] text-[14px] font-semibold text-[var(--button-primary)] transition-colors duration-300 ease-out hover:border-[var(--button-primary)] hover:bg-[var(--button-primary)] hover:text-[var(--button-white)] disabled:border-[var(--border-disabled)] disabled:bg-[var(--background-white)] disabled:text-[var(--test-subtext)]"
+          className="h-auto rounded-xl border-[var(--border-primary)] bg-[var(--button-white)] px-3.5 py-2.5 text-sm font-semibold text-[var(--button-primary)] transition-colors duration-300 ease-out hover:border-[var(--button-primary)] hover:bg-[var(--button-primary)] hover:text-[var(--button-white)] disabled:border-[var(--border-disabled)] disabled:bg-[var(--background-white)] disabled:text-[var(--test-subtext)]"
         >
           <span className="inline-flex items-center gap-2">
             {isStarting ? <Spinner className="h-4 w-4" /> : null}
@@ -42,4 +42,5 @@ export function StudentExamCard({ exam, onStart, isStarting }) {
     </article>
   );
 }
+
 

@@ -12,7 +12,7 @@ export function LoadingState({
     return (
       <div className={cn("flex items-center gap-2", className)} role="status" aria-live="polite">
         <Spinner className={cn("h-4 w-4 text-[var(--text-primary)]", spinnerClassName)} />
-        <p className={cn("text-[14px] font-normal text-[var(--test-subtext)]", textClassName)}>{message}</p>
+        <p className={cn("text-sm font-normal text-[var(--test-subtext)]", textClassName)}>{message}</p>
       </div>
     );
   }
@@ -28,10 +28,11 @@ export function LoadingState({
     >
       <div className="flex items-center justify-center gap-2">
         <Spinner className={cn("h-4 w-4 text-[var(--text-primary)]", spinnerClassName)} />
-        <p className={cn("text-center text-[14px] font-normal text-[var(--test-subtext)]", textClassName)}>
+        <p className={cn("text-center text-sm font-normal text-[var(--test-subtext)]", textClassName)}>
           {message}
         </p>
       </div>
     </section>
   );
 }
+

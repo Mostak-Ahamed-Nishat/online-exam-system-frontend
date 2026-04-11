@@ -11,7 +11,7 @@ export function ErrorState({ message, className, onRetry, retryLabel = "Try agai
       role="alert"
     >
       <div className="mx-auto flex max-w-[480px] flex-col items-center gap-3 text-center">
-        <p className="text-[14px] font-normal text-[var(--button-warning)]">
+        <p className="text-sm font-normal text-[var(--button-warning)]">
           {message || "Something went wrong. Please try again."}
         </p>
         {onRetry ? (
@@ -19,7 +19,7 @@ export function ErrorState({ message, className, onRetry, retryLabel = "Try agai
             type="button"
             variant="outline"
             onClick={onRetry}
-            className="h-10 rounded-[10px] border-[var(--border-primary)] px-5 text-[14px] font-semibold text-[var(--button-primary)] hover:bg-[var(--button-lightblue)]"
+            className="h-10 rounded-[10px] border-[var(--border-primary)] px-5 text-sm font-semibold text-[var(--button-primary)] hover:bg-[var(--button-lightblue)]"
           >
             {retryLabel}
           </Button>
@@ -28,4 +28,5 @@ export function ErrorState({ message, className, onRetry, retryLabel = "Try agai
     </section>
   );
 }
+
 

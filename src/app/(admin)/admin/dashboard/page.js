@@ -55,7 +55,7 @@ export default function AdminDashboardPage() {
 
   if (!mounted) {
     return (
-      <section className="mx-auto w-full max-w-[1280px]">
+      <section className="mx-auto w-full max-w-screen-xl">
         <div className="mt-8">
           <LoadingState message="Loading online tests..." />
         </div>
@@ -64,9 +64,9 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-[1280px]">
+    <section className="mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
-        <h1 className="text-2xl font-semibold leading-[48px] text-[var(--text-primary)]">
+        <h1 className="text-2xl font-semibold leading-12 text-[var(--text-primary)]">
           Online Tests
         </h1>
 
@@ -83,7 +83,7 @@ export default function AdminDashboardPage() {
             href="/admin/exams/create"
             className={cn(
               buttonVariants({ variant: "default" }),
-              "h-11 rounded-[12px] px-6 text-[14px] font-semibold",
+              "h-11 rounded-xl px-6 text-sm font-semibold",
             )}
           >
             Create Online Test
@@ -135,7 +135,7 @@ export default function AdminDashboardPage() {
                 message="Updating..."
                 className="mt-2"
                 spinnerClassName="h-3 w-3"
-                textClassName="text-[12px]"
+                textClassName="text-xs"
               />
             ) : null}
           </>
@@ -144,3 +144,4 @@ export default function AdminDashboardPage() {
     </section>
   );
 }
+
