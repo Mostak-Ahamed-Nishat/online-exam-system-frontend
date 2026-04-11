@@ -2,7 +2,7 @@
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(student)/student/dashboard/page": "app/(student)/student/dashboard/page.js",
   "/(admin)/admin/exams/create/page": "app/(admin)/admin/exams/create/page.js",
-  "/(admin)/admin/dashboard/page": "app/(admin)/admin/dashboard/page.js",
   "/(student)/student/exams/[examId]/page": "app/(student)/student/exams/[examId]/page.js",
+  "/(admin)/admin/dashboard/page": "app/(admin)/admin/dashboard/page.js",
   "/(admin)/admin/exams/create/questions/page": "app/(admin)/admin/exams/create/questions/page.js"
 }

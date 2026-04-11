@@ -1,7 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ErrorState } from "@/components/ui/error-state";
@@ -12,6 +14,7 @@ import {
   loadOfflineQueue,
   saveOfflineQueue,
 } from "@/features/exams/utils/exam-attempt-offline-storage";
+import { selectAuthUser } from "@/store/slices/authSlice";
 import {
   useLazyGetStudentCurrentQuestionQuery,
   useLazyGetStudentExamSessionQuery,
@@ -65,13 +68,7 @@ function mapQueueUpsert(items, incoming) {
   return base;
 }
 
-function OptionRow({
-  option,
-  type,
-  checked,
-  disabled,
-  onToggle,
-}) {
+function OptionRow({ option, type, checked, disabled, onToggle }) {
   const isRadio = type === "RADIO";
   return (
     <button
@@ -105,6 +102,7 @@ export default function StudentExamAttemptPage() {
   const router = useRouter();
   const params = useParams();
   const examId = useMemo(() => normalizeExamId(params?.examId), [params]);
+  const authUser = useSelector(selectAuthUser);
 
   const [attemptState, setAttemptState] = useState(null);
   const [selectedOptionIndexes, setSelectedOptionIndexes] = useState([]);
@@ -116,6 +114,7 @@ export default function StudentExamAttemptPage() {
   const [isOnline, setIsOnline] = useState(true);
   const [offlineQueue, setOfflineQueue] = useState([]);
   const [deadlineTs, setDeadlineTs] = useState(null);
+  const [resultView, setResultView] = useState(null);
 
   const autoSubmitRef = useRef(false);
   const integrityCooldownRef = useRef(0);
@@ -181,7 +180,8 @@ export default function StudentExamAttemptPage() {
   }, [attemptState?.currentOrder, examId, isOnline, offlineQueue, syncStudentOfflineAnswers]);
 
   const handleManualSubmit = useCallback(async () => {
-    if (!examId) return;
+    if (!examId || resultView) return;
+
     if (!isOnline) {
       toast.error("You are offline. Reconnect to submit.");
       return;
@@ -193,18 +193,23 @@ export default function StudentExamAttemptPage() {
       if (!synced) return;
 
       await submitStudentExam(examId).unwrap();
-      toast.success("Exam submitted successfully.");
-      router.replace("/student/dashboard");
+      setResultView("completed");
     } catch (error) {
       const message = getErrorMessage(error, "Failed to submit exam.");
       toast.error(message);
-      if (error?.status === 404 || error?.status === 409) {
+
+      if (error?.status === 409) {
+        setResultView("timeout");
+        return;
+      }
+
+      if (error?.status === 404) {
         router.replace("/student/dashboard");
       }
     } finally {
       setIsSubmitting(false);
     }
-  }, [examId, flushOfflineQueue, isOnline, router, submitStudentExam]);
+  }, [examId, flushOfflineQueue, isOnline, resultView, router, submitStudentExam]);
 
   const handleAutoTimeoutSubmit = useCallback(async () => {
     if (!examId || autoSubmitRef.current) return;
@@ -216,16 +221,15 @@ export default function StudentExamAttemptPage() {
         await flushOfflineQueue();
       }
       await timeoutSubmitStudentExam(examId).unwrap();
-      toast.error("Time is over. Exam auto-submitted.");
-      router.replace("/student/dashboard");
+      setResultView("timeout");
     } catch (error) {
-      const message = getErrorMessage(error, "Session expired. Redirecting to dashboard.");
+      const message = getErrorMessage(error, "Session expired.");
       toast.error(message);
-      router.replace("/student/dashboard");
+      setResultView("timeout");
     } finally {
       setIsSubmitting(false);
     }
-  }, [examId, flushOfflineQueue, isOnline, router, timeoutSubmitStudentExam]);
+  }, [examId, flushOfflineQueue, isOnline, timeoutSubmitStudentExam]);
 
   useEffect(() => {
     if (!examId) return;
@@ -259,7 +263,7 @@ export default function StudentExamAttemptPage() {
   }, [examId, loadCurrentQuestion, startStudentExam, triggerGetSession]);
 
   useEffect(() => {
-    if (isInitializing || !deadlineTs || isSubmitting) return undefined;
+    if (isInitializing || !deadlineTs || isSubmitting || resultView) return undefined;
 
     const timerId = window.setInterval(() => {
       const remaining = Math.max(0, Math.ceil((deadlineTs - Date.now()) / 1000));
@@ -280,7 +284,7 @@ export default function StudentExamAttemptPage() {
     }, 1000);
 
     return () => window.clearInterval(timerId);
-  }, [deadlineTs, handleAutoTimeoutSubmit, isInitializing, isSubmitting]);
+  }, [deadlineTs, handleAutoTimeoutSubmit, isInitializing, isSubmitting, resultView]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -307,7 +311,7 @@ export default function StudentExamAttemptPage() {
   }, [flushOfflineQueue, loadCurrentQuestion]);
 
   useEffect(() => {
-    if (!examId || isInitializing) return undefined;
+    if (!examId || isInitializing || resultView) return undefined;
 
     const handleVisibility = () => {
       if (document.visibilityState !== "hidden") return;
@@ -331,7 +335,7 @@ export default function StudentExamAttemptPage() {
 
           if (result?.autoSubmitted) {
             toast.error("Exam auto-submitted due to integrity violations.");
-            router.replace("/student/dashboard");
+            setResultView("timeout");
             return;
           }
 
@@ -339,7 +343,12 @@ export default function StudentExamAttemptPage() {
             toast.warning(`Tab switch detected. Remaining chances: ${result.remainingViolations}`);
           }
         } catch (error) {
-          if (error?.status === 404 || error?.status === 409) {
+          if (error?.status === 409) {
+            setResultView("timeout");
+            return;
+          }
+
+          if (error?.status === 404) {
             toast.error("Session expired. Redirecting.");
             router.replace("/student/dashboard");
           }
@@ -349,7 +358,7 @@ export default function StudentExamAttemptPage() {
 
     document.addEventListener("visibilitychange", handleVisibility);
     return () => document.removeEventListener("visibilitychange", handleVisibility);
-  }, [examId, isInitializing, isOnline, reportStudentIntegrityEvent, router]);
+  }, [examId, isInitializing, isOnline, reportStudentIntegrityEvent, resultView, router]);
 
   const currentQuestion = attemptState?.question;
   const currentOrder = attemptState?.currentOrder ?? 1;
@@ -358,6 +367,7 @@ export default function StudentExamAttemptPage() {
   const isLastQuestion = currentOrder >= totalQuestions;
   const isTextType = currentQuestion?.type === "TEXT";
   const isRadioType = currentQuestion?.type === "RADIO";
+  const candidateName = authUser?.fullName || authUser?.name || "Candidate";
 
   const validateCurrentAnswer = useCallback(
     (action) => {
@@ -418,7 +428,7 @@ export default function StudentExamAttemptPage() {
 
   const updateAndMove = useCallback(
     async (action, submitAfter = false) => {
-      if (!examId || !currentQuestion) return;
+      if (!examId || !currentQuestion || resultView) return;
       if (!validateCurrentAnswer(action)) return;
 
       if (!isOnline) {
@@ -451,7 +461,13 @@ export default function StudentExamAttemptPage() {
       } catch (error) {
         const message = getErrorMessage(error, "Unable to save answer.");
         toast.error(message);
-        if (error?.status === 404 || error?.status === 409) {
+
+        if (error?.status === 409) {
+          setResultView("timeout");
+          return;
+        }
+
+        if (error?.status === 404) {
           router.replace("/student/dashboard");
         }
       } finally {
@@ -467,6 +483,7 @@ export default function StudentExamAttemptPage() {
       handleManualSubmit,
       isOnline,
       loadCurrentQuestion,
+      resultView,
       router,
       selectedOptionIndexes,
       updateCurrentQuestion,
@@ -485,11 +502,7 @@ export default function StudentExamAttemptPage() {
   if (loadError) {
     return (
       <section className="mx-auto w-full max-w-[1280px]">
-        <ErrorState
-          message={loadError}
-          retryLabel="Try again"
-          onRetry={() => window.location.reload()}
-        />
+        <ErrorState message={loadError} retryLabel="Try again" onRetry={() => window.location.reload()} />
       </section>
     );
   }
@@ -498,6 +511,32 @@ export default function StudentExamAttemptPage() {
     return (
       <section className="mx-auto w-full max-w-[1280px]">
         <ErrorState message="Question could not be loaded." onRetry={() => void loadCurrentQuestion()} />
+      </section>
+    );
+  }
+
+  if (resultView === "completed") {
+    return (
+      <section className="mx-auto w-full max-w-[1280px]">
+        <div className="rounded-[18px] border border-[var(--border-disabled)] bg-[var(--background-white)] px-6 py-12 text-center md:px-10 md:py-16">
+          <div className="mx-auto max-w-[980px]">
+            <Image src="/assets/Complete.png" alt="Test completed" width={64} height={64} className="mx-auto h-16 w-16" />
+            <h2 className="mt-4 text-[38px] font-semibold leading-[46px] text-[var(--text-primary)]">Test Completed</h2>
+            <p className="mx-auto mt-3 max-w-[920px] text-[14px] font-normal leading-7 text-[var(--test-subtext)]">
+              Congratulations! {candidateName}, You have completed your exam. Thank you for participating.
+            </p>
+            <div className="mt-7">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.replace("/student/dashboard")}
+                className="h-12 min-w-[180px] rounded-[12px] border-[var(--border-inputfield)] px-6 text-[14px] font-semibold text-[var(--text-primary)] hover:bg-[var(--background-color)]"
+              >
+                Back to Dashboard
+              </Button>
+            </div>
+          </div>
+        </div>
       </section>
     );
   }
@@ -512,9 +551,7 @@ export default function StudentExamAttemptPage() {
 
       <div className="rounded-[18px] border border-[var(--border-disabled)] bg-[var(--background-white)] px-5 py-4 md:px-8">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <h2 className="text-[20px] font-semibold leading-[30px] text-[var(--text-primary)]">
-            Question ({currentOrder}/{totalQuestions})
-          </h2>
+          <h2 className="text-[20px] font-semibold leading-[30px] text-[var(--text-primary)]">Question ({currentOrder}/{totalQuestions})</h2>
           <div className="inline-flex min-w-[220px] items-center justify-center rounded-[14px] bg-[#f1f3f7] px-6 py-3 text-[20px] font-semibold leading-[30px] text-[var(--text-primary)]">
             {remainingLabel}
           </div>
@@ -528,11 +565,7 @@ export default function StudentExamAttemptPage() {
 
         <div className="mt-6 space-y-3">
           {isTextType ? (
-            <AttemptRichTextEditor
-              value={answerText}
-              onChange={setAnswerText}
-              placeholder="Type questions here.."
-            />
+            <AttemptRichTextEditor value={answerText} onChange={setAnswerText} placeholder="Type questions here.." />
           ) : (
             (currentQuestion.options || []).map((option) => {
               const checked = selectedOptionIndexes.includes(option.index);
@@ -542,7 +575,7 @@ export default function StudentExamAttemptPage() {
                   option={option}
                   type={currentQuestion.type}
                   checked={checked}
-                  disabled={isSaving || isSubmitting}
+                  disabled={isSaving || isSubmitting || Boolean(resultView)}
                   onToggle={() => {
                     setSelectedOptionIndexes((previous) => {
                       if (isRadioType) {
@@ -566,7 +599,7 @@ export default function StudentExamAttemptPage() {
           <Button
             type="button"
             variant="outline"
-            disabled={isSaving || isSubmitting}
+            disabled={isSaving || isSubmitting || Boolean(resultView)}
             onClick={() => void updateAndMove("SKIP", isLastQuestion)}
             className="h-12 min-w-[160px] rounded-[14px] border-[var(--border-inputfield)] px-5 text-[14px] font-semibold text-[var(--text-primary)] hover:bg-[#f8fafc]"
           >
@@ -575,7 +608,7 @@ export default function StudentExamAttemptPage() {
 
           <Button
             type="button"
-            disabled={isSaving || isSubmitting}
+            disabled={isSaving || isSubmitting || Boolean(resultView)}
             onClick={() => void updateAndMove("SAVE", isLastQuestion)}
             className="h-12 min-w-[160px] rounded-[14px] bg-[var(--button-primary)] px-5 text-[14px] font-semibold text-[var(--button-white)] hover:opacity-95 disabled:bg-[var(--button-disabled)]"
           >
@@ -583,6 +616,28 @@ export default function StudentExamAttemptPage() {
           </Button>
         </div>
       </div>
+
+      {resultView === "timeout" ? (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/45 px-4">
+          <div className="w-full max-w-[694px] rounded-[18px] border border-[var(--border-disabled)] bg-[var(--background-white)] px-6 py-8 text-center md:px-10 md:py-10">
+            <Image src="/assets/Timeout.png" alt="Timeout" width={64} height={64} className="mx-auto h-16 w-16" />
+            <h3 className="mt-4 text-[38px] font-semibold leading-[46px] text-[var(--text-primary)]">Timeout!</h3>
+            <p className="mx-auto mt-3 max-w-[560px] text-[14px] font-normal leading-7 text-[var(--test-subtext)]">
+              Dear {candidateName}, Your exam time has been finished. Thank you for participating.
+            </p>
+            <div className="mt-7">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.replace("/student/dashboard")}
+                className="h-12 min-w-[180px] rounded-[12px] border-[var(--border-inputfield)] px-6 text-[14px] font-semibold text-[var(--text-primary)] hover:bg-[var(--background-color)]"
+              >
+                Back to Dashboard
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
