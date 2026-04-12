@@ -5,12 +5,11 @@ export function AppFooter() {
   return (
     <footer className="mt-auto w-full bg-[var(--footer-bg)] text-[var(--test-white)] md:fixed md:bottom-0 md:left-0 md:z-30">
       <div className="mx-auto flex max-w-screen-xl flex-col gap-6 px-4 py-6 sm:flex-row sm:items-center sm:justify-between lg:max-h-20">
-        <div className="flex items-center gap-3">
-          <FooterLogo />
-          <div className="text-sm">
+        <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-3">
+          <div className="text-md lg:text-xl">
             <div className="opacity-80">Powered by</div>
-            <div className="font-semibold tracking-wide">AKIJ RESOURCE</div>
           </div>
+          <FooterLogo />
         </div>
 
         <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-6">
@@ -34,4 +33,3 @@ export function AppFooter() {
     </footer>
   );
 }
-

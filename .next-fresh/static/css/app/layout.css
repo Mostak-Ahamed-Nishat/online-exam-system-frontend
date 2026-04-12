@@ -2330,6 +2330,11 @@ video {
     line-height: 2rem;
   }
 
+  .lg\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
   .lg\:leading-8 {
     line-height: 2rem;
   }
