@@ -17,7 +17,7 @@ function formatBdTime(value) {
   const normalizedHour = hours % 12 || 12;
   const period = hours >= 12 ? "PM" : "AM";
 
-  return `${normalizedHour}:${minutes} ${period} (BDT)`;
+  return `${normalizedHour}:${minutes} ${period}`;
 }
 
 function SummaryField({ label, value }) {
@@ -65,7 +65,10 @@ export function BasicInfoSummaryCard({ info, onEdit }) {
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           <SummaryField label="Question Type" value={info.questionType} />
-          <SummaryField label="Start Time" value={formatBdTime(info.startTime)} />
+          <SummaryField
+            label="Start Time"
+            value={formatBdTime(info.startTime)}
+          />
           <SummaryField label="End Time" value={formatBdTime(info.endTime)} />
         </div>
       </div>

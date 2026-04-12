@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata = {
   title: "Online Exam System",
   description: "Admin + Candidate portal",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }) {

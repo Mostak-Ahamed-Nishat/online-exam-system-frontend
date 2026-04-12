@@ -20,7 +20,7 @@ export function LoadingState({
   return (
     <section
       className={cn(
-        "w-full rounded-[10px] border border-[var(--border-inputfield)] bg-[var(--background-white)] px-4 py-10 md:px-8 md:py-14",
+        "w-full px-4 py-10 md:px-8 md:py-14",
         className,
       )}
       role="status"
