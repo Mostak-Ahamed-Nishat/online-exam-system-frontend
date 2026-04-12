@@ -1,10 +1,10 @@
 # Online Assessment Platform
 
-A full-stack, production-ready online examination system built with modern web technologies. The platform provides two distinct panels — an **Admin Panel** for exam management and a **Candidate Panel** for secure, proctored exam delivery.
+A full-stack online examination system built with modern web technologies. The platform provides two distinct panels — an **Admin Panel** for exam management and a **Candidate Panel** for secure, proctored exam delivery.
 
 ---
 
-## 🔗 Project Links
+## Project Links
 
 | Resource            | Link                                                                                                                                                                                                                                                                        |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -16,7 +16,7 @@ A full-stack, production-ready online examination system built with modern web t
 
 ---
 
-## 🔐 Demo Credentials
+## Demo Credentials
 
 | Role    | Email              | Password                      |
 | ------- | ------------------ | ----------------------------- |
@@ -25,7 +25,7 @@ A full-stack, production-ready online examination system built with modern web t
 
 ---
 
-## 🧩 Feature Overview
+## Feature Overview
 
 ### Admin Panel
 
@@ -99,7 +99,7 @@ A full-stack, production-ready online examination system built with modern web t
 
 ---
 
-## 🏗 Backend Architecture
+## Backend Architecture
 
 **Stack:** Node.js · Express.js · TypeScript · MongoDB (Mongoose) · Zod
 
@@ -122,7 +122,7 @@ A full-stack, production-ready online examination system built with modern web t
 
 ---
 
-## 📡 API Structure
+## API Structure
 
 ```
 /api/auth/*                              — Authentication & token management
@@ -133,14 +133,14 @@ A full-stack, production-ready online examination system built with modern web t
 
 ---
 
-## 🗄 Database Design
+## Database Design
 
 Entity-Relationship Diagram available on Miro:
-👉 https://miro.com/welcomeonboard/Tmd1ZzZzT1NxK2hVNGJrLy9KclFVTFYzR0FRRXh5c0IxTlRjV2xpNkRUQ1BrbkRTZGFYQURjSkh6M04rMmhqZHdSQ1RPUXJRVUV1anIwQzhodG1UVC9JRVM5M2tKTUV2UmsxU2xJMUVscndadGlGeS9xZ1Z5MmFYeXllZEdxRmNzVXVvMm53MW9OWFg1bkJoVXZxdFhRPT0hdjE=?share_link_id=752565887110
+https://miro.com/welcomeonboard/Tmd1ZzZzT1NxK2hVNGJrLy9KclFVTFYzR0FRRXh5c0IxTlRjV2xpNkRUQ1BrbkRTZGFYQURjSkh6M04rMmhqZHdSQ1RPUXJRVUV1anIwQzhodG1UVC9JRVM5M2tKTUV2UmsxU2xJMUVscndadGlGeS9xZ1Z5MmFYeXllZEdxRmNzVXVvMm53MW9OWFg1bkJoVXZxdFhRPT0hdjE=?share_link_id=752565887110
 
 ---
 
-## ⚙️ Local Development
+## Local Development
 
 ### Prerequisites
 
@@ -165,62 +165,63 @@ npm run dev
 
 ---
 
-## 📋 Additional Questions
+## Additional Questions
+
+### MCP Integration
+
+**Have you worked with any MCP (Model Context Protocol)?**
+
+I have not used any MCP directly in this project. I used ChatGPT and Claude free version for development assistance. However, here is an idea of how MCP could be applied:
+
+- **Supabase MCP** — Instead of the current MongoDB + Express backend, Supabase MCP could be connected to an AI assistant (e.g., Claude) to let it directly introspect the database schema, generate Supabase queries, and scaffold API logic. During development, this would reduce the time spent manually writing CRUD endpoints and migration scripts.
+- **Figma MCP** — A Figma MCP server could allow the AI assistant to read Figma design tokens (colors, spacing, typography) and auto-generate the CSS variables and component markup, ensuring pixel-perfect consistency between the design file and the final UI.
+- **Chrome DevTools MCP** — During debugging, a DevTools MCP could let the AI read console errors, network waterfall data, and DOM state in real-time, enabling faster diagnosis of issues like the offline-sync race conditions encountered during development.
 
 ---
 
-### 1. MCP (Model Context Protocol) Integration
+### AI Tools for Development
 
-**Have you worked with any MCP?**
+**Which AI tools have you used to speed up frontend development?**
 
-Yes. During development of this project, I integrated **Claude by Anthropic** as an AI-powered development assistant — which operates through the Model Context Protocol (MCP) framework. Claude was used actively throughout the development lifecycle for the following:
+| Tool               | How It Was Used                                                                                                                                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ChatGPT (Free)** | Generated boilerplate code for components and API service layers. Also used for quick reference on library APIs and syntax.                                                                                      |
+| **Claude**         | Used for generating complex validation schemas (Zod), debugging tricky errors (e.g., token rotation race conditions, offline sync edge cases), and getting architectural suggestions for the exam session engine. |
 
-- Scaffolding reusable React components and custom hooks (`useExamTimer`, `useBehaviorTracking`, `useOfflineSync`)
-- Generating type-safe Zod validation schemas for both frontend forms and backend route validation
-- Accelerating RTK Query endpoint definitions and Redux slice generation
-- Enforcing consistent naming conventions, folder structure, and code patterns across the codebase
-- Reviewing logic for edge cases in the exam session engine and offline sync strategy
+**How these tools increased development speed:**
 
-**How MCP could further enhance this project:**
-
-| MCP Server              | Use Case                                                                                                                                         |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Figma MCP**           | Auto-generate React components directly from the provided Figma designs, eliminating manual translation of design to code                        |
-| **Supabase MCP**        | Enable Claude to interact with the database layer through natural language — running queries, generating migrations, and managing schema changes |
-| **Chrome DevTools MCP** | Identify runtime performance bottlenecks and accessibility violations in real-time during the exam screen's interactive flows                    |
+- **Boilerplate generation** — Repetitive patterns like RTK Query endpoint definitions, form validation schemas, and CRUD components were scaffolded by AI and then customized, saving significant time.
+- **Error resolution** — When encountering unfamiliar errors (e.g., hydration mismatches in Next.js, JWT refresh token edge cases), pasting the error into Claude or ChatGPT often gave a direct fix faster than searching through documentation.
+- **Validation logic** — Complex Zod schemas with conditional validation rules (e.g., different rules based on question type) were generated with AI assistance and refined manually.
 
 ---
 
-### 2. AI Tools for Development
-
-**Which AI tools did you use to speed up development?**
-
-| Tool                   | Usage                                                                                                                                                                              |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Claude (Anthropic)** | Primary AI assistant throughout the project. Used for component scaffolding, custom hook generation, Zod schema design, code review, and architectural decisions                   |
-| **GitHub Copilot**     | Inline code completions inside VS Code, particularly for repetitive patterns such as RTK Query endpoint boilerplate, form field registration, and TypeScript interface definitions |
-
-These tools significantly reduced time spent on boilerplate and repetitive tasks, allowing more focus on complex product logic — including the exam session engine, behavioral proctoring system, and the offline answer persistence and sync strategy.
-
----
-
-### 3. Offline Mode Strategy
+### Offline Mode
 
 **How would you handle offline mode if a candidate loses internet during an exam?**
 
-The platform implements a multi-layered offline resilience strategy designed to ensure zero data loss and an uninterrupted exam experience:
+**Implementation Details:**
 
-**1. Immediate Answer Persistence**
-Every answer interaction (selection, text input) is written to `localStorage` synchronously — before any API call is made. Answers are stored with a composite key of `sessionId + questionId`, ensuring granular recovery.
+1. **Answer Queuing** — When a candidate saves or skips an answer while offline, the action is serialized and pushed into a per-exam `localStorage` queue (`exam_attempt_offline_queue_v1_{examId}`). The candidate sees a toast notification indicating the answer has been queued locally.
 
-**2. Client-Side Timer**
-The countdown timer operates entirely on the client using `Date.now()` relative to the stored `startedAt` timestamp. It continues accurately regardless of network status, with no dependency on server polling.
+2. **Network Detection** — The app listens to the browser's native `online` / `offline` events via `useAttemptNetworkEffect`. An `isOnline` state flag controls whether API calls or local queuing is used.
 
-**3. Automatic Reconnection Sync**
-The application listens to the browser's native `online` event. Upon reconnection, all locally persisted answers are batched and synced to the backend in a single request — transparently, without interrupting the candidate's active session.
+3. **Client-Side Timer** — The countdown timer runs entirely on the client using `setInterval` against a server-provided deadline timestamp. It continues ticking even when the network is down, so the candidate always sees accurate remaining time.
 
-**4. Session Resume on Reload**
-On every page load, the app fetches the latest session state from the backend and performs a deep merge with any locally stored answers — prioritizing local state for unanswered questions and server state for already-submitted ones.
+4. **Automatic Sync on Reconnect** — When the `online` event fires, the app immediately:
+   - Flushes the offline queue by calling `POST /candidate/exams/{examId}/offline-sync` with all queued answers
+   - Reloads the current question from the server to get the latest state
+   - Notifies the candidate that connectivity has been restored
 
-**5. Optimistic UI**
-All answer selections are reflected in the UI immediately upon interaction, independent of network status. This ensures a smooth, lag-free experience even on slow or intermittent connections, with background sync handling persistence.
+5. **Submission Guard** — If the candidate tries to submit the exam while still offline, the submission is blocked with a notification to reconnect first. Once back online, any pending offline answers are flushed before the final submission proceeds.
+
+6. **Session Restore** — On page reload, the session state is fetched from the server and merged with any remaining items in the local offline queue, ensuring no answers are lost.
+
+**Key Files:**
+
+| File                                  | Purpose                                                                |
+| ------------------------------------- | ---------------------------------------------------------------------- |
+| `exam-attempt-offline-storage.js`     | `localStorage` queue helpers: `load`, `save`, `clear`                  |
+| `use-student-exam-attempt.js`         | Core hook: `enqueueOfflineAction`, `flushOfflineQueue`, submit guards  |
+| `use-student-exam-attempt-effects.js` | Side-effect hooks: network listener, timer, initialization             |
+| `examApi.js`                          | RTK Query endpoints: `syncStudentOfflineAnswers`, `refetchOnReconnect` |
