@@ -22,6 +22,8 @@ A full-stack online examination system built with modern web technologies. The p
 | ------- | ------------------ | ----------------------------- |
 | Admin 1 | admin@example.com  | `ChangeThisAdminPassword123!` |
 | Admin 2 | admin2@example.com | `ChangeThisAdminPassword123!` |
+| User    | Regester Real mail | `Your given password`         |
+
 
 ---
 
